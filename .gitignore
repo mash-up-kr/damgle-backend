@@ -1,0 +1,30 @@
+# Dependency directory
+node_modules
+
+# Ignore coverage
+coverage
+
+# Ignore built ts files
+dist
+esm
+
+# Ignore Desktop Service Store
+.DS_Store
+
+# Use pnpm
+package-lock.json
+yarn.lock
+
+# Ignore yarn error log
+yarn-error.log
+
+# Ignore env
+.env
+.envrc
+
+# Ignore terraform related
+.terraform
+.terraform.lock.hcl
+
+# lambda archive
+lambda.zip
