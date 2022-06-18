@@ -1,23 +1,18 @@
+FUNCTION_NAME:=namepicker
 prepare:
 	pnpm install --frozen-lockfile
 build:
-	npx esbuild \
-		--bundle src/index.ts \
-		--outdir=dist \
-		--outbase=src/ \
-		--tsconfig=tsconfig.build.json \
-		--sourcemap \
-		--platform=node
+	npx webpack
 package:
 	zip -rq9 lambda.zip dist
 upload:
-	aws s3 cp ./lambda.zip s3://$(AWS_LAMBDA_BUCKET)/$(AWS_LAMBDA_KEY)
+	aws s3 cp ./lambda.zip s3://$(S3_PRIVATE_BUCKET)/lambda/$(FUNCTION_NAME).zip
 deploy:
 	aws lambda update-function-code \
 		--region $(AWS_REGION) \
-		--function-name $(AWS_LAMBDA_FUNCTION_NAME) \
-		--s3-bucket $(AWS_LAMBDA_BUCKET) \
-		--s3-key $(AWS_LAMBDA_KEY) --publish
+		--function-name $(FUNCTION_NAME) \
+		--s3-bucket $(S3_PRIVATE_BUCKET) \
+		--s3-key lambda/$(FUNCTION_NAME).zip --publish
 clean:
 	rm ./lambda.zip
 
