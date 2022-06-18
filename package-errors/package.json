@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/mash-up-kr/damgle-backend.git",
-    "directory": "package-utils"
+    "directory": "package-errors"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
@@ -56,5 +56,8 @@
     },
     "testEnvironment": "node",
     "preset": "ts-jest"
+  },
+  "dependencies": {
+    "@sindresorhus/is": "^4.6.0"
   }
 }
