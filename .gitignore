@@ -15,8 +15,8 @@ esm
 package-lock.json
 yarn.lock
 
-# Ignore yarn error log
-yarn-error.log
+# Ignore pnpm error log
+.pnpm-debug.log
 
 # Ignore env
 .env
