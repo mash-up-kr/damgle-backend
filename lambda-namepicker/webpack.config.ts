@@ -10,17 +10,14 @@ module.exports = {
     new webpack.IgnorePlugin({
       checkResource(resource) {
         const lazyImports = [
+          './swagger-ui-bundle.js',
+          './swagger-ui-standalone-preset.js',
+          'class-transformer/storage',
+          'fastify-swagger',
           '@nestjs/microservices',
-          '@nestjs/platform-express',
+          '@nestjs/platform-fastify',
           '@nestjs/websockets/socket-module',
           '@nestjs/microservices/microservices-module',
-          'cache-manager',
-          'class-validator',
-          'class-transformer',
-          'fastify-static',
-          'point-of-view', // fastify-adapter#setViewEngine 사용할때 필요
-          'pino-pretty',
-          'long',
         ];
         if (!lazyImports.includes(resource)) {
           return false;
