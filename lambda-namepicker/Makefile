@@ -3,7 +3,7 @@ prepare:
 	pnpm install --frozen-lockfile
 build:
 	npx webpack
-	cp -r ../script/swagger-ui ./dist/api-docs
+	cp -r ../script/swagger-ui/* ./dist/
 package:
 	zip -rq9 lambda.zip dist
 upload:
