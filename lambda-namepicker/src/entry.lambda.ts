@@ -1,5 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Callback, Context, Handler } from 'aws-lambda';
 import { bootstrap } from './bootstrap';
+import configureProxy from '@vendia/serverless-express';
 
 let proxy: Handler;
 
@@ -9,9 +10,12 @@ export const handler = async (
   callback: Callback
 ): Promise<APIGatewayProxyResult> => {
   console.log(event);
+  if (event.pathParameters?.proxy) {
+    delete event.pathParameters.proxy;
+  }
   if (!proxy) {
     const { instance } = await bootstrap();
-    proxy = require('@vendia/serverless-express')({ app: instance });
+    proxy = configureProxy({ app: instance });
   }
 
   return proxy(event, context, callback);
