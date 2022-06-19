@@ -1,17 +1,17 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { fastify } from 'fastify';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
+import { setupSwagger } from './core/docs';
 
 export async function bootstrap() {
   const logger = new Logger();
-  const instance = fastify();
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(instance), {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger,
   });
-  app.setGlobalPrefix('/namepicker');
+  app.setGlobalPrefix('/v1/namepicker');
+  setupSwagger(app);
   await app.init();
 
-  return { app, instance };
+  return { app, instance: app.getHttpAdapter().getInstance() };
 }
