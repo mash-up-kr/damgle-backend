@@ -2,4 +2,8 @@ export S3_PUBLIC_BUCKET=
 export S3_PRIVATE_BUCKET=
 export AWS_PROFILE=
 export AWS_REGION=
+export SENTRY_DSN=
+
+## namepicker
 export GCP_API_KEY=
+export NAMEPICKER_SHEET_ID=
