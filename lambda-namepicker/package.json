@@ -48,6 +48,7 @@
     "@aws-sdk/client-lambda": "^3.112.0",
     "@damgle/utils": "workspace:*",
     "@nestjs/common": "^8.0.0",
+    "@nestjs/config": "^2.1.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.4.7",
     "@nestjs/swagger": "^5.2.1",
