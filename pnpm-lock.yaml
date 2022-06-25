@@ -34,6 +34,7 @@ importers:
       '@damgle/utils': workspace:*
       '@nestjs/cli': ^8.0.0
       '@nestjs/common': ^8.0.0
+      '@nestjs/config': ^2.1.0
       '@nestjs/core': ^8.0.0
       '@nestjs/platform-express': ^8.4.7
       '@nestjs/schematics': ^8.0.0
@@ -69,6 +70,7 @@ importers:
       '@aws-sdk/client-lambda': 3.112.0
       '@damgle/utils': link:../package-utils
       '@nestjs/common': 8.4.6_89516104a5450ea39e618def2c5de067
+      '@nestjs/config': 2.1.0_8341a45f76a60f560bbeb12c24253aeb
       '@nestjs/core': 8.4.6_6c85820f58e2039b44d1db9e1fe3c3cc
       '@nestjs/platform-express': 8.4.7_24ca02718c236197ee32dbe80f8a4d36
       '@nestjs/swagger': 5.2.1_ca393a62fb84dfbe5e678b7677766063
@@ -103,8 +105,9 @@ importers:
       webpack: 5.73.0_webpack-cli@4.9.2
       webpack-cli: 4.9.2_webpack@5.73.0
 
-  package-utils:
+  package-errors:
     specifiers:
+      '@sindresorhus/is': ^4.6.0
       '@types/jest': ^27.5.1
       '@types/node': ^17.0.36
       '@typescript-eslint/eslint-plugin': ^5.15.0
@@ -116,6 +119,37 @@ importers:
       ts-jest: ^28.0.3
       ts-node: ^10.8.0
       typescript: ^4.7.2
+    dependencies:
+      '@sindresorhus/is': 4.6.0
+    devDependencies:
+      '@types/jest': 27.5.2
+      '@types/node': 17.0.42
+      '@typescript-eslint/eslint-plugin': 5.27.1_043f48e0ee10c350c28cdede89899bc7
+      '@typescript-eslint/parser': 5.27.1_eslint@8.17.0+typescript@4.7.3
+      eslint: 8.17.0
+      jest: 28.1.1_a2e39ee687ea9ef955b8d79e98ab4325
+      jest-mock-extended: 2.0.6_jest@28.1.1+typescript@4.7.3
+      prettier: 2.6.2
+      ts-jest: 28.0.4_jest@28.1.1+typescript@4.7.3
+      ts-node: 10.8.1_b3d808fe1a913e95b2e4ed8c6219abd3
+      typescript: 4.7.3
+
+  package-utils:
+    specifiers:
+      '@damgle/errors': workspace:*
+      '@types/jest': ^27.5.1
+      '@types/node': ^17.0.36
+      '@typescript-eslint/eslint-plugin': ^5.15.0
+      '@typescript-eslint/parser': ^5.15.0
+      eslint: ^8.16.0
+      jest: ^28.1.0
+      jest-mock-extended: ^2.0.6
+      prettier: ^2.6.0
+      ts-jest: ^28.0.3
+      ts-node: ^10.8.0
+      typescript: ^4.7.2
+    dependencies:
+      '@damgle/errors': link:../package-errors
     devDependencies:
       '@types/jest': 27.5.2
       '@types/node': 17.0.42
@@ -1544,6 +1578,22 @@ packages:
       - debug
     dev: false
 
+  /@nestjs/config/2.1.0_8341a45f76a60f560bbeb12c24253aeb:
+    resolution: {integrity: sha512-wUpt1/QJEN7xnJl4pM3c9rHrY1widq2yPOZfjaMD1//XAP9LLHTaW+RxSEG6BSGIm3w4wGtjco+gKNB2WL7yRg==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.0 || ^8.0.0
+      reflect-metadata: ^0.1.13
+      rxjs: ^6.0.0 || ^7.2.0
+    dependencies:
+      '@nestjs/common': 8.4.6_89516104a5450ea39e618def2c5de067
+      dotenv: 16.0.1
+      dotenv-expand: 8.0.3
+      lodash: 4.17.21
+      reflect-metadata: 0.1.13
+      rxjs: 7.5.5
+      uuid: 8.3.2
+    dev: false
+
   /@nestjs/core/8.4.6_6c85820f58e2039b44d1db9e1fe3c3cc:
     resolution: {integrity: sha512-5zHpxTYV7HT3lfF7l/x0EWBfmuyuDOnGRcALf88tzDGs/7Q/VC6l65d6eFwDwI37NLtScqnmEkT9of8E3fT3mA==}
     requiresBuild: true
@@ -1722,6 +1772,11 @@ packages:
   /@sinclair/typebox/0.23.5:
     resolution: {integrity: sha512-AFBVi/iT4g20DHoujvMH1aEDn8fGJh4xsRGCP6d8RpLPMqsNPvW01Jcn0QysXTsg++/xj25NmJsGyH9xug/wKg==}
     dev: true
+
+  /@sindresorhus/is/4.6.0:
+    resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
+    engines: {node: '>=10'}
+    dev: false
 
   /@sinonjs/commons/1.8.3:
     resolution: {integrity: sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==}
@@ -2902,6 +2957,16 @@ packages:
     dependencies:
       esutils: 2.0.3
     dev: true
+
+  /dotenv-expand/8.0.3:
+    resolution: {integrity: sha512-SErOMvge0ZUyWd5B0NXMQlDkN+8r+HhVUsxgOO7IoPDOdDRD2JjExpN6y3KnFR66jsJMwSn1pqIivhU5rcJiNg==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /dotenv/16.0.1:
+    resolution: {integrity: sha512-1K6hR6wtk2FviQ4kEiSjFiH5rpzEVi8WW0x96aztHVMhEspNpc4DVOUTEHtEva5VThQ8IaBX1Pe4gSzpVVUsKQ==}
+    engines: {node: '>=12'}
+    dev: false
 
   /ee-first/1.1.1:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
