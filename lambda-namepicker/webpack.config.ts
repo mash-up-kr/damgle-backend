@@ -45,4 +45,7 @@ module.exports = {
   stats: {
     warningsFilter: ['optional-require', 'load-package.util', 'load-adapter', (warning: any) => false],
   },
+  externals: {
+    googleapis: 'commonjs googleapis',
+  },
 };

@@ -4,6 +4,8 @@ prepare:
 build:
 	npx webpack
 	cp -r ../script/swagger-ui/* ./dist/
+	cp ./package.lambda.json ./dist/package.json
+	cd dist && npm install --production
 package:
 	zip -rq9 lambda.zip dist
 upload:
