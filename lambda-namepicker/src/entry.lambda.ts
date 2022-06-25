@@ -9,7 +9,6 @@ export const handler = async (
   context: Context,
   callback: Callback
 ): Promise<APIGatewayProxyResult> => {
-  console.log(event);
   if (!proxy) {
     const { instance } = await bootstrap();
     proxy = configureProxy({ app: instance });
