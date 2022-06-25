@@ -4,6 +4,7 @@ import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express
 import express from 'express';
 import { AppModule } from './app.module';
 import { setupSwagger } from './core/docs';
+import './core/sentry';
 
 export async function bootstrap() {
   const logger = new Logger();
