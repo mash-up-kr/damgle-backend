@@ -1,4 +1,4 @@
 packages:
   - 'lambda-namepicker'
   - 'package-utils'
-  - 'pacakge-errors'
+  - 'package-errors'
