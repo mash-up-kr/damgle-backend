@@ -5,7 +5,7 @@ resource "aws_lambda_function" "function" {
   s3_bucket     = aws_s3_bucket.lambda.id
   s3_key        = var.s3_lambda_key
 
-  runtime = "nodejs14.x"
+  runtime = "nodejs16.x"
 
   environment {
     variables = {
