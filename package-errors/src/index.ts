@@ -21,3 +21,8 @@ export class EnvNotFoundError extends ErrorOf.System(
   '{{key}}에 대한 환경변수 {{envKey}}가 존재하지 않습니다',
   500
 ) {}
+
+export class GoogleSheetDataInvalidError extends ErrorOf.System(
+  '{{domain}} 스프레드 시트의 데이터가 잘못되었습니다.',
+  500
+) {}
