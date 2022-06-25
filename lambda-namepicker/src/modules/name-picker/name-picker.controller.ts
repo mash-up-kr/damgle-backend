@@ -3,15 +3,15 @@ import { NamePickerService } from './name-picker.service';
 
 @Controller()
 export class NamePickerController {
-  constructor(private readonly appService: NamePickerService) {}
+  constructor(private readonly namePicker: NamePickerService) {}
 
   @Get()
-  pickName(): string {
-    return this.appService.getHello();
+  async pickName(): Promise<any> {
+    return await this.namePicker.getHello();
   }
 
   @Get('/:name')
-  getName(@Param('name') name: string): string {
+  async getName(@Param('name') name: string): Promise<any> {
     return `Hello, ${name}`;
   }
 }

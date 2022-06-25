@@ -3,11 +3,13 @@ import { ConfigModule } from '@nestjs/config';
 
 export interface Environment {
   'google.apiKey': string;
+  'google.sheetId': string;
 }
 
-const config = () => {
+const config = async (): Promise<Environment> => {
   return ensuredEnv({
     'google.apiKey': 'GCP_API_KEY',
+    'google.sheetId': 'NAMEPICKER_SHEET_ID',
   });
 };
 
