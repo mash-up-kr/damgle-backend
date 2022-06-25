@@ -1,7 +1,7 @@
 import { ErrorType } from './error.type';
 
-export class BaseError extends Error {
-  public readonly type: ErrorType;
+export abstract class BaseError extends Error {
+  public readonly type: ErrorType = ErrorType.SYSTEM;
 
   constructor(
     message: string,
