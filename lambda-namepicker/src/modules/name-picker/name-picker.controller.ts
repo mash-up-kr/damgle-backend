@@ -1,9 +1,9 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { AppService } from './app.service';
+import { NamePickerService } from './name-picker.service';
 
 @Controller()
 export class NamePickerController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: NamePickerService) {}
 
   @Get()
   pickName(): string {

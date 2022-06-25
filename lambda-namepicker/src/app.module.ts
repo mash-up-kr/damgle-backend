@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { NamePickerController } from './name-picker.controller';
-import { AppService } from './app.service';
+import { configModule } from './core/config';
+import { GoogleSheetModule } from './modules/google-sheet/google-sheet.module';
+import { NamePickerModule } from './modules/name-picker/name-picker.module';
 
 @Module({
-  imports: [],
-  controllers: [NamePickerController],
-  providers: [AppService],
+  imports: [configModule, NamePickerModule, GoogleSheetModule],
 })
 export class AppModule {}
