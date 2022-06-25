@@ -2,11 +2,11 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
-export class AppController {
+export class NamePickerController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
+  pickName(): string {
     return this.appService.getHello();
   }
 
