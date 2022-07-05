@@ -17,12 +17,14 @@ export class GoogleSheetRepository {
     { range, sheetId, sheetName }: FetchSheetParameter,
     validate?: (data: any) => void
   ): Promise<Content> {
-    const {
-      data: { values },
-    } = await this.api.spreadsheets.values.get({
+    const result = await this.api.spreadsheets.values.get({
       range: `${sheetName}!${range}`,
       spreadsheetId: sheetId,
     });
+    console.log(result);
+    const {
+      data: { values },
+    } = result;
 
     if (!is.array(values)) {
       throw new GoogleSheetDataInvalidError({ domain: 'name-picker' });

@@ -5,5 +5,7 @@ export AWS_REGION=
 export SENTRY_DSN=
 
 ## namepicker
-export GCP_API_KEY=
 export NAMEPICKER_SHEET_ID=
+export GCP_OAUTH_CLIENT_ID=
+export GCP_OAUTH_REFRESH_TOKEN=
+export GCP_OAUTH_CLIENT_SECRET=
