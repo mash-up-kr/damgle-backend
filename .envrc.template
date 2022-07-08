@@ -1,13 +1,18 @@
+# AWS
 export S3_PUBLIC_BUCKET=
 export S3_PRIVATE_BUCKET=
-
 export AWS_PROFILE=
 export AWS_REGION=
 
+# COMMON
 export CDN_HOST=
 export API_HOST=
-
 export SENTRY_DSN=
+
+# DATABASE
+export MONGODB_PASSWORD=
+export MONGODB_DATABASE=
+export MONGODB_URL=
 
 ## namepicker
 export NAMEPICKER_SHEET_ID=
