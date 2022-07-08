@@ -24,7 +24,9 @@
     "email": "nycom13@gmail.com"
   },
   "dependencies": {
-    "@damgle/errors": "workspace:*"
+    "@damgle/errors": "workspace:*",
+    "@sentry/node": "^7.3.0",
+    "@sentry/tracing": "^7.3.0"
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",

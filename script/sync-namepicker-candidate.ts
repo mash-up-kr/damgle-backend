@@ -1,5 +1,14 @@
 import { GoogleSheet, S3 } from '@damgle/admin';
-import { constant } from '@damgle/utils';
+import { constant, staticEnv } from '@damgle/utils';
+
+staticEnv.require(
+  's3_public_bucket',
+  'aws_region',
+  'gcp_oauth_client_id',
+  'gcp_oauth_refresh_token',
+  'gcp_oauth_client_secret',
+  'namepicker_sheet_id'
+);
 
 async function main() {
   const candidateData = await GoogleSheet.fetchCandidates(GoogleSheet.loadEnv());
