@@ -11,6 +11,9 @@ export const staticEnvKeys = [
   'gcp_oauth_client_secret',
   'cdn_host',
   'api_host',
+  'mongodb_url',
+  'mongodb_database',
+  'mongodb_password',
 ] as const;
 
 export type StaticEnvKey = typeof staticEnvKeys[number];
