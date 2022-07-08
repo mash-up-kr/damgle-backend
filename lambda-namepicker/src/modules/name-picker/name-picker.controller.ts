@@ -1,4 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Docs } from './name-picker.docs';
+import { NameResult, PickNamePayload } from './name-picker.dto';
 import { NamePickerService } from './name-picker.service';
 
 @Controller()
@@ -6,12 +8,14 @@ export class NamePickerController {
   constructor(private readonly namePicker: NamePickerService) {}
 
   @Get()
-  async pickName(): Promise<any> {
-    return await this.namePicker.getHello();
+  @Docs.getName('닉네임을 랜덤으로 조회합니다.')
+  async getName(): Promise<NameResult> {
+    return await this.namePicker.getName();
   }
 
-  @Get('/:name')
-  async getName(@Param('name') name: string): Promise<any> {
-    return `Hello, ${name}`;
+  @Post()
+  @Docs.pickName('닉네임을 선택합니다.')
+  async pickName(@Body() payload: PickNamePayload): Promise<NameResult> {
+    return await this.namePicker.pickName(payload.adjective, payload.noun);
   }
 }
