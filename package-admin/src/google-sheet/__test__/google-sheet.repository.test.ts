@@ -13,28 +13,24 @@ describe('google-sheet.repository', () => {
     });
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "majorDimension": "ROWS",
-        "range": "Sheet1!A1:B1000",
-        "values": Array [
-          Array [
-            "형용사",
-            "명사",
-          ],
-          Array [
-            "일하는",
-            "고양이",
-          ],
-          Array [
-            "술먹는",
-            "강아지",
-          ],
-          Array [
-            "잠자는",
-            "비둘기",
-          ],
+      Array [
+        Array [
+          "형용사",
+          "명사",
         ],
-      }
+        Array [
+          "일하는",
+          "고양이",
+        ],
+        Array [
+          "술먹는",
+          "강아지",
+        ],
+        Array [
+          "잠자는",
+          "비둘기",
+        ],
+      ]
     `);
   });
 });
