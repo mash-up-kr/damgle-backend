@@ -1,7 +1,12 @@
 export S3_PUBLIC_BUCKET=
 export S3_PRIVATE_BUCKET=
+
 export AWS_PROFILE=
 export AWS_REGION=
+
+export CDN_HOST=
+export API_HOST=
+
 export SENTRY_DSN=
 
 ## namepicker
