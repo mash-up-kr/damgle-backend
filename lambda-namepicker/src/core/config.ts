@@ -1,11 +1,11 @@
+import { staticEnv } from '@damgle/utils';
 import { ConfigModule } from '@nestjs/config';
-import { ensuredEnv, ENV_KEY } from '@damgle/utils';
 
 // config is empty now
 const config = async () => {
-  return ensuredEnv({
-    cdnHost: ENV_KEY.cdn_host,
-  });
+  return {
+    cdnHost: staticEnv.cdn_host,
+  };
 };
 
 export const configModule = ConfigModule.forRoot({

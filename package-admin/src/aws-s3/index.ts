@@ -1,14 +1,14 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { ensuredEnv, ENV_KEY } from '@damgle/utils';
+import { staticEnv } from '@damgle/utils';
 
 export class S3 {
   private constructor(private readonly client: S3Client, private readonly bucket: string) {}
 
-  static public(env = ensuredEnv({ bucket: ENV_KEY.s3_public_bucket, region: ENV_KEY.aws_region })) {
+  static public(env = { bucket: staticEnv.s3_public_bucket, region: staticEnv.aws_region }) {
     return new S3(new S3Client({ region: env.region }), env.bucket);
   }
 
-  static private(env = ensuredEnv({ bucket: ENV_KEY.s3_private_bucket, region: ENV_KEY.aws_region })) {
+  static private(env = { bucket: staticEnv.s3_private_bucket, region: staticEnv.aws_region }) {
     return new S3(new S3Client({ region: env.region }), env.bucket);
   }
 

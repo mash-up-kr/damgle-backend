@@ -1,6 +1,6 @@
 import { GoogleSheetRepository } from './google-sheet.repository';
 import { createApi, GoogleSheetApiConfig } from './google-sheet.api';
-import { ensuredEnv, ENV_KEY } from '@damgle/utils';
+import { staticEnv } from '@damgle/utils';
 
 export namespace GoogleSheet {
   export type NickNameCandidates = { adjectives: string[]; nouns: string[] };
@@ -28,11 +28,11 @@ export namespace GoogleSheet {
   }
 
   export function loadEnv() {
-    return ensuredEnv({
-      sheetId: ENV_KEY.namepicker_sheet_id,
-      id: ENV_KEY.gcp_oauth_client_id,
-      secret: ENV_KEY.gcp_oauth_client_secret,
-      refreshToken: ENV_KEY.gcp_oauth_refresh_token,
-    });
+    return {
+      sheetId: staticEnv.namepicker_sheet_id,
+      id: staticEnv.gcp_oauth_client_id,
+      secret: staticEnv.gcp_oauth_client_secret,
+      refreshToken: staticEnv.gcp_oauth_refresh_token,
+    };
   }
 }
