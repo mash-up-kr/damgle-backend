@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "@damgle/errors": "workspace:*",
+    "@damgle/utils": "workspace:^1.0.0",
+    "@sindresorhus/is": "^4.6.0",
     "googleapis": "^104.0.0"
   },
   "devDependencies": {
