@@ -1,9 +1,5 @@
 import { EnvNotFoundError } from '@damgle/errors';
 
-export function helloWorld() {
-  console.log('Hello World!');
-}
-
 export function ensuredEnv<T extends Record<string, string>>(
   keymap: T,
   defaults?: Partial<T>
