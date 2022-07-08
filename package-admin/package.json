@@ -24,9 +24,12 @@
     "email": "nycom13@gmail.com"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.121.0",
     "@damgle/errors": "workspace:*",
     "@damgle/utils": "workspace:^1.0.0",
     "@sindresorhus/is": "^4.6.0",
+    "fastify": "^4.2.0",
+    "google-auth-library": "^8.1.0",
     "googleapis": "^104.0.0"
   },
   "devDependencies": {
