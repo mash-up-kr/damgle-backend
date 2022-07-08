@@ -1,20 +1,5 @@
 import { sheets_v4 } from 'googleapis';
-import { google } from 'googleapis';
-
-interface GoogleOAuthParams {
-  client: {
-    id: string;
-    secret: string;
-    redirectUrl: string; // 테스트 계정으로 생성한 토큰 정보만 가지고 사용할 것이기 때문에 필요없음
-  };
-  user: {
-    access_token: string;
-    refresh_token: string;
-    scope: string;
-    token_type: 'Bearer';
-    expiry_date: number;
-  };
-}
+import { createAuth } from './google-sheet.auth';
 
 export type GoogleSheetApi = sheets_v4.Sheets;
 
@@ -41,10 +26,4 @@ export function createApi({ id, secret, refreshToken }: GoogleSheetApiConfig): G
       }
     ),
   });
-}
-
-function createAuth(client: GoogleOAuthParams['client'], user: GoogleOAuthParams['user']) {
-  const oAuth2Client = new google.auth.OAuth2(client.id, client.secret, client.redirectUrl);
-  oAuth2Client.setCredentials(user);
-  return oAuth2Client;
 }
