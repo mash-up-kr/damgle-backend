@@ -18,6 +18,15 @@ module.exports = {
           '@nestjs/platform-fastify',
           '@nestjs/websockets/socket-module',
           '@nestjs/microservices/microservices-module',
+
+          // mongodb optionals
+          'mongodb-client-encryption',
+          'bson-ext',
+          'kerberos',
+          'aws4',
+          'snappy',
+          '@mongodb-js/zstd',
+          'snappy/package.json',
         ];
         if (!lazyImports.includes(resource)) {
           return false;
