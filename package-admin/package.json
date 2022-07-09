@@ -1,5 +1,5 @@
 {
-  "name": "@damgle/utils",
+  "name": "@damgle/admin",
   "version": "1.0.0",
   "private": true,
   "license": "UNLICENSED",
@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/mash-up-kr/damgle-backend.git",
-    "directory": "package-utils"
+    "directory": "package-admin"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
@@ -24,9 +24,13 @@
     "email": "nycom13@gmail.com"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.121.0",
     "@damgle/errors": "workspace:*",
-    "@sentry/node": "^7.3.0",
-    "@sentry/tracing": "^7.3.0"
+    "@damgle/utils": "workspace:^1.0.0",
+    "@sindresorhus/is": "^4.6.0",
+    "fastify": "^4.2.0",
+    "google-auth-library": "^8.1.0",
+    "googleapis": "^104.0.0"
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",

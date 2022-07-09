@@ -2,3 +2,4 @@ packages:
   - 'lambda-namepicker'
   - 'package-utils'
   - 'package-errors'
+  - 'package-admin'

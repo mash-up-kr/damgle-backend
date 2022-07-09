@@ -26,3 +26,8 @@ export class GoogleSheetDataInvalidError extends ErrorOf.System(
   '{{domain}} 스프레드 시트의 데이터가 잘못되었습니다.',
   500
 ) {}
+
+export class BadRequestError extends ErrorOf.User(
+  '잘못된 요청입니다: {{reason}}',
+  400
+) {}

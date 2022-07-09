@@ -1,7 +1,6 @@
 import { GoogleSheetDataInvalidError } from '@damgle/errors';
-import { Inject, Injectable } from '@nestjs/common';
 import is from '@sindresorhus/is';
-import { GoogleSheetApi, googleSheetApi } from './google-sheet.api';
+import { GoogleSheetApi } from './google-sheet.api';
 
 export interface FetchSheetParameter {
   sheetId: string;
@@ -9,9 +8,8 @@ export interface FetchSheetParameter {
   range: string;
 }
 
-@Injectable()
 export class GoogleSheetRepository {
-  constructor(@Inject(googleSheetApi.provide) private readonly api: GoogleSheetApi) {}
+  constructor(private readonly api: GoogleSheetApi) {}
 
   async get<Content extends any[][]>(
     { range, sheetId, sheetName }: FetchSheetParameter,
@@ -21,7 +19,6 @@ export class GoogleSheetRepository {
       range: `${sheetName}!${range}`,
       spreadsheetId: sheetId,
     });
-    console.log(result);
     const {
       data: { values },
     } = result;

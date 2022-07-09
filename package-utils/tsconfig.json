@@ -1,16 +1,4 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "esnext",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "strictNullChecks": true,
-    "sourceMap": true,
-    "outDir": "dist",
-    "declaration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "lib": ["esnext"]
-  },
+  "extends": "../tsconfig.common.json",
   "include": ["src/**/*"]
 }
