@@ -1,4 +1,4 @@
-FUNCTION_NAME:=namepicker
+FUNCTION_NAME:=auth
 prepare:
 	pnpm install --frozen-lockfile
 build:
