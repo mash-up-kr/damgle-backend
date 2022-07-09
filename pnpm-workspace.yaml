@@ -1,5 +1,6 @@
 packages:
   - 'lambda-namepicker'
+  - 'lambda-content'
   - 'lambda-auth'
   - 'package-utils'
   - 'package-errors'
