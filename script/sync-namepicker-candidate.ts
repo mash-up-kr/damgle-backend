@@ -12,9 +12,11 @@ staticEnv.require(
 
 async function main() {
   const candidateData = await GoogleSheet.fetchCandidates(GoogleSheet.loadEnv());
-  const s3 = S3.public();
 
-  await s3.uploadJson(constant.s3_namepicker_candidate_path, candidateData, { ACL: 'public-read' });
+  candidateData.adjectives = candidateData.adjectives.filter(item => item != null);
+  candidateData.nouns = candidateData.nouns.filter(item => item != null);
+
+  await S3.public().uploadJson(constant.s3_namepicker_candidate_path, candidateData, { ACL: 'public-read' });
   console.log('done');
 }
 
