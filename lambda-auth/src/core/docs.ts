@@ -6,15 +6,7 @@ export function setupSwagger(app: INestApplication): void {
     .setTitle('담글담글 - auth api')
     .setDescription('인증 서비스')
     .setVersion('1.0.0') // TODO: webpack define plugin?
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        name: 'JWT',
-        in: 'header',
-      },
-      'access-token'
-    )
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
