@@ -31,3 +31,13 @@ export class BadRequestError extends ErrorOf.User(
   '잘못된 요청입니다: {{reason}}',
   400
 ) {}
+
+export class DuplicatedNickNameError extends ErrorOf.User(
+  '닉네임이 중복되었습니다: {{nickname}}',
+  400
+) {}
+
+export class SignInFailureError extends ErrorOf.User(
+  '로그인을 할 수 없습니다: {{reason}}',
+  403
+) {}
