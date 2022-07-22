@@ -17,10 +17,11 @@ export class NamePickerService {
     private readonly candidateCounterModel: Model<CandidateCounterDocument>
   ) {}
 
-  async getName(): Promise<any> {
+  async getName({ adjective, noun }: { adjective?: string; noun?: string }): Promise<any> {
     const { adjectives, nouns } = await this.getCandidateData();
-    const [adjective] = pickRandom(adjectives, { count: 1 });
-    const [noun] = pickRandom(nouns, { count: 1 });
+
+    adjective ??= pickRandom(adjectives, { count: 1 })[0];
+    noun ??= pickRandom(nouns, { count: 1 })[0];
 
     const key = this.createKey(adjective, noun);
     const record = await this.candidateCounterModel.findOne({ key });
