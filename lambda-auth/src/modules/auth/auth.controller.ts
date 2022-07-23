@@ -1,9 +1,8 @@
+import { AuthorizedRequest, JwtAuthGuard } from '@damgle/utils';
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { Docs } from './auth.docs';
 import { SignInPayload, SignInResult, SignUpPayload, SignUpResult } from './auth.dto';
 import { AuthService } from './auth.service';
-import { AuthorizedRequest } from './auth.type';
-import { JwtAuthGuard } from './jwt/jwt.guard';
 
 @Controller()
 export class AuthController {
