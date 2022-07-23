@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
+import { captureSourceVersion } from '@damgle/utils';
 
 module.exports = {
   entry: './src/entry.lambda.ts',
@@ -7,6 +8,9 @@ module.exports = {
   target: 'node',
   devtool: 'source-map',
   plugins: [
+    new webpack.DefinePlugin({
+      SOURCE_VERSION: captureSourceVersion(),
+    }),
     new webpack.IgnorePlugin({
       checkResource(resource) {
         const lazyImports = [
