@@ -1,3 +1,5 @@
+export NODE_ENV=local
+
 # AWS
 export S3_PUBLIC_BUCKET=
 export S3_PRIVATE_BUCKET=
