@@ -25,21 +25,13 @@
   },
   "peerDependencies": {
     "@damgle/errors": "workspace:*",
-    "@nestjs/common": "^8.0.0",
-    "@nestjs/core": "^8.0.0",
     "@nestjs/mongoose": "^9.2.0",
-    "mongoose": "^6.4.4",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "mongoose": "^6.4.4"
   },
   "devDependencies": {
     "@damgle/errors": "workspace:*",
-    "@nestjs/common": "^8.0.0",
-    "@nestjs/core": "^8.0.0",
     "@nestjs/mongoose": "^9.2.0",
     "mongoose": "^6.4.4",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0",
     "@types/jest": "^27.5.1",
     "@types/node": "^17.0.36",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
