@@ -52,6 +52,7 @@
     "@aws-sdk/client-lambda": "^3.112.0",
     "@damgle/errors": "workspace:*",
     "@damgle/utils": "workspace:*",
+    "@damgle/models": "workspace:*",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.1.0",
     "@nestjs/core": "^8.0.0",

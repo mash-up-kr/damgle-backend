@@ -2,24 +2,19 @@ import { DuplicatedNickNameError, SignInFailureError } from '@damgle/errors';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import {
-  User,
-  UserDocument,
-  UserCollectionCounter,
-  UserCollectionCounterDocument,
-} from '../user/user.schema';
 import { SignInPayload, SignUpPayload } from './auth.dto';
 import { staticEnv } from '@damgle/utils';
 import { v4 as uuidv4 } from 'uuid';
 import * as jwt from 'jsonwebtoken';
+import { User, UserCounter, UserCounterDocument, UserDocument } from '@damgle/models';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
-    @InjectModel(UserCollectionCounter.name)
-    private readonly userCollectionCounterModel: Model<UserCollectionCounterDocument>
+    @InjectModel(UserCounter.name)
+    private readonly userCounterModel: Model<UserCounterDocument>
   ) {}
 
   async signup({ nickname }: SignUpPayload) {
@@ -76,7 +71,7 @@ export class AuthService {
   private async atomicIncrement(key: string) {
     let result: { count: number } | null = null;
     while (result == null) {
-      result = await this.userCollectionCounterModel.findOneAndUpdate(
+      result = await this.userCounterModel.findOneAndUpdate(
         { key },
         { $inc: { count: 1 } },
         { upsert: true, returnOriginal: false }

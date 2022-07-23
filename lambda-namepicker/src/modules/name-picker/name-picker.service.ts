@@ -1,13 +1,12 @@
 import { BadRequestError } from '@damgle/errors';
+import { CandidateCounter, CandidateCounterDocument } from '@damgle/models';
 import { constant, staticEnv } from '@damgle/utils';
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import got from 'got';
 import { Model } from 'mongoose';
 import pickRandom from 'pick-random';
 import { Cacheable } from '../../core/cache';
-import { CandidateCounter, CandidateCounterDocument } from './candidate-counter.schema';
 
 @Injectable()
 export class NamePickerService {

@@ -4,4 +4,5 @@ packages:
   - 'lambda-auth'
   - 'package-utils'
   - 'package-errors'
+  - 'package-models'
   - 'package-admin'
