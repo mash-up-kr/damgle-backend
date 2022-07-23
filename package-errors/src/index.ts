@@ -1,5 +1,6 @@
 import { createError } from './error.factory';
 import { ErrorType } from './error.type';
+export { BaseError } from './base.error';
 
 const ErrorOf = {
   User: createError(ErrorType.USER),
