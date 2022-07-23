@@ -15,6 +15,7 @@ export const staticEnvKeys = [
   'mongodb_database',
   'mongodb_password',
   'jwt_secret',
+  'node_env',
 ] as const;
 
 export type StaticEnvKey = typeof staticEnvKeys[number];
