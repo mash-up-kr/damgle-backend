@@ -9,5 +9,7 @@ export class UserCounter {
   @Prop()
   count: number;
 }
+
 export type UserCounterDocument = UserCounter & Document;
+
 export const UserCounterSchema = SchemaFactory.createForClass(UserCounter);

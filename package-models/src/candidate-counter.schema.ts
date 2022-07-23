@@ -1,8 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type CandidateCounterDocument = CandidateCounter & Document;
-
 @Schema({ collection: 'namepicker' })
 export class CandidateCounter {
   @Prop()
@@ -11,5 +9,7 @@ export class CandidateCounter {
   @Prop()
   count: number;
 }
+
+export type CandidateCounterDocument = CandidateCounter & Document;
 
 export const CandidateCounterSchema = SchemaFactory.createForClass(CandidateCounter);
