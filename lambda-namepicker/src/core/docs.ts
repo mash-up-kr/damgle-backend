@@ -1,9 +1,10 @@
+import { getSourceVersion } from '@damgle/utils';
 import { INestApplication } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 export function setupSwagger(app: INestApplication): void {
   const config = new DocumentBuilder()
-    .setTitle('담글담글 - namepicker api')
+    .setTitle(`담글담글 - namepicker api (${getSourceVersion()})`)
     .setDescription('닉네임 생성기')
     .setVersion('1.0.0') // TODO: webpack define plugin?
     .addBearerAuth(
@@ -18,5 +19,8 @@ export function setupSwagger(app: INestApplication): void {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document, { useGlobalPrefix: true, swaggerOptions: { redirect: false } });
+  SwaggerModule.setup('api-docs', app, document, {
+    useGlobalPrefix: true,
+    swaggerOptions: { redirect: false },
+  });
 }
