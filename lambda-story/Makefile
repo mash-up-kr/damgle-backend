@@ -1,4 +1,4 @@
-FUNCTION_NAME:=content
+FUNCTION_NAME:=story
 prepare:
 	pnpm install --frozen-lockfile
 build:

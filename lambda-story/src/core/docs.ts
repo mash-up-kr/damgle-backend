@@ -4,7 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 export function setupSwagger(app: INestApplication): void {
   const config = new DocumentBuilder()
-    .setTitle(`담글담글 - content api (${getSourceVersion()})`)
+    .setTitle(`담글담글 - story api (${getSourceVersion()})`)
     .setDescription('컨텐츠 서비스')
     .setVersion('1.0.0') // TODO: webpack define plugin?
     .addBearerAuth(

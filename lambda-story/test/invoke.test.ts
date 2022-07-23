@@ -5,13 +5,13 @@ import { readFile } from 'fs/promises';
 // to retrieve lambda metadata
 describe('invoke lambda', () => {
   it('successfully invoke lambda', async () => {
-    const payloadFileName = './payload.content.json';
+    const payloadFileName = './payload.story.json';
     const payload = await readFile(require.resolve(payloadFileName), 'utf8');
 
     const client = new LambdaClient({ region: 'ap-northeast-2' });
     const response = await client.send(
       new InvokeCommand({
-        FunctionName: 'content',
+        FunctionName: 'story',
         Payload: jsonToPayload(payload),
       })
     );

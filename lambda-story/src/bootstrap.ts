@@ -31,7 +31,7 @@ export async function bootstrap() {
     }
   );
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  app.setGlobalPrefix('/v1/content');
+  app.setGlobalPrefix('/v1/story');
   setupSwagger(app);
   await app.init();
 

@@ -1,4 +1,4 @@
-# lambda-content
+# lambda-story
 
 
 // 표준 좌표계와 동일하다.
