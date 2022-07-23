@@ -414,6 +414,8 @@ importers:
   package-utils:
     specifiers:
       '@damgle/errors': workspace:*
+      '@nestjs/common': ^8.0.0
+      '@nestjs/passport': ^9.0.0
       '@sentry/node': ^7.3.0
       '@sentry/tracing': ^7.3.0
       '@types/jest': ^27.5.1
@@ -423,14 +425,24 @@ importers:
       eslint: ^8.16.0
       jest: ^28.1.0
       jest-mock-extended: ^2.0.6
+      passport: ^0.6.0
+      passport-jwt: ^4.0.0
       prettier: ^2.6.0
+      reflect-metadata: ^0.1.13
+      rxjs: ^7.2.0
       ts-jest: ^28.0.3
       ts-node: ^10.8.0
       typescript: ^4.7.2
     dependencies:
       '@damgle/errors': link:../package-errors
+      '@nestjs/common': 8.4.6_e7ea248743279784063e3708d703abc5
+      '@nestjs/passport': 9.0.0_898af4cb72e7b4cdd12947d51221628f
       '@sentry/node': 7.3.0
       '@sentry/tracing': 7.3.0
+      passport: 0.6.0
+      passport-jwt: 4.0.0
+      reflect-metadata: 0.1.13
+      rxjs: 7.5.5
     devDependencies:
       '@types/jest': 27.5.2
       '@types/node': 17.0.42
@@ -2330,6 +2342,32 @@ packages:
       - debug
     dev: false
 
+  /@nestjs/common/8.4.6_e7ea248743279784063e3708d703abc5:
+    resolution: {integrity: sha512-INp1ERDrLiQ4GwRc3zotTwBLZm2sIwcJwnBE2yXqsth17KijmoVmY8UB5Tares0IlwjsqlRFWkCX8uWE5rzbSA==}
+    peerDependencies:
+      cache-manager: '*'
+      class-transformer: '*'
+      class-validator: '*'
+      reflect-metadata: ^0.1.12
+      rxjs: ^7.1.0
+    peerDependenciesMeta:
+      cache-manager:
+        optional: true
+      class-transformer:
+        optional: true
+      class-validator:
+        optional: true
+    dependencies:
+      axios: 0.27.2
+      iterare: 1.2.1
+      reflect-metadata: 0.1.13
+      rxjs: 7.5.5
+      tslib: 2.4.0
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@nestjs/config/2.1.0_8341a45f76a60f560bbeb12c24253aeb:
     resolution: {integrity: sha512-wUpt1/QJEN7xnJl4pM3c9rHrY1widq2yPOZfjaMD1//XAP9LLHTaW+RxSEG6BSGIm3w4wGtjco+gKNB2WL7yRg==}
     peerDependencies:
@@ -2430,7 +2468,7 @@ packages:
       '@nestjs/common': ^8.0.0 || ^9.0.0
       passport: ^0.4.0 || ^0.5.0 || ^0.6.0
     dependencies:
-      '@nestjs/common': 8.4.6_89516104a5450ea39e618def2c5de067
+      '@nestjs/common': 8.4.6_e7ea248743279784063e3708d703abc5
       passport: 0.6.0
     dev: false
 
@@ -7311,7 +7349,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
+    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
     dev: false
 
