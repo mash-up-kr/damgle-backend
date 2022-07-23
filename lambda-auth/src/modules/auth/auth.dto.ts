@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class AuthResponse {
   @IsString()
   @ApiProperty()
   nickname: string;
 
-  @IsString()
+  @IsNumber()
   @ApiProperty()
   userNo: number;
 
@@ -28,7 +28,7 @@ export class SignUpPayload {
 export class SignUpResult extends AuthResponse {}
 
 export class SignInPayload {
-  @IsString()
+  @IsNumber()
   @ApiProperty()
   userNo: number;
 
