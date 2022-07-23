@@ -1,5 +1,5 @@
 import { BadRequestError } from '@damgle/errors';
-import { constant } from '@damgle/utils';
+import { constant, staticEnv } from '@damgle/utils';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
@@ -12,7 +12,6 @@ import { CandidateCounter, CandidateCounterDocument } from './candidate-counter.
 @Injectable()
 export class NamePickerService {
   constructor(
-    private readonly configService: ConfigService,
     @InjectModel(CandidateCounter.name)
     private readonly candidateCounterModel: Model<CandidateCounterDocument>
   ) {}
@@ -63,9 +62,7 @@ export class NamePickerService {
 
   @Cacheable(180)
   private async getCandidateData(): Promise<{ adjectives: string[]; nouns: string[] }> {
-    return await got(
-      this.configService.getOrThrow('cdnHost') + '/' + constant.s3_namepicker_candidate_path
-    ).json();
+    return await got(staticEnv.cdn_host + '/' + constant.s3_namepicker_candidate_path).json();
   }
 
   private maybeKorean(nth: number): string {

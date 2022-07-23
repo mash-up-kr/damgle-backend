@@ -1,5 +1,6 @@
-import { staticEnv } from '@damgle/utils';
+import { AllExceptionFilter, staticEnv } from '@damgle/utils';
 import { Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CacheableModule } from './core/cache';
 import { configModule } from './core/config';
@@ -15,5 +16,6 @@ import { NamePickerModule } from './modules/name-picker/name-picker.module';
     ),
     NamePickerModule,
   ],
+  providers: [{ provide: APP_FILTER, useClass: AllExceptionFilter }],
 })
 export class AppModule {}
