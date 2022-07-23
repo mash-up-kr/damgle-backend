@@ -7,10 +7,17 @@ import { setupSwagger } from './core/docs';
 import { initSentry, staticEnv, withSentryCaptured } from '@damgle/utils';
 
 initSentry();
-withSentryCaptured(() =>
-  staticEnv.require('cdn_host', 'mongodb_url', 'mongodb_password', 'mongodb_database', 'jwt_secret')
-);
 withSentryCaptured(() => require('pretty-error').start());
+withSentryCaptured(() =>
+  staticEnv.require(
+    // fill static environment variable to use
+    'cdn_host',
+    'mongodb_url',
+    'mongodb_password',
+    'mongodb_database',
+    'jwt_secret'
+  )
+);
 
 export async function bootstrap() {
   const logger = new Logger();
