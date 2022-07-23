@@ -1,8 +1,12 @@
 import * as Sentry from '@sentry/node';
-
+import { getSourceVersion } from './metadata';
 let initialized = false;
 
 export function initSentry() {
+  Sentry.setContext('sourceVersion', {
+    version: getSourceVersion(),
+  });
+
   if (initialized) {
     return;
   }
