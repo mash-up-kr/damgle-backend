@@ -13,10 +13,14 @@ export class StoryService {
     private readonly storyModel: Model<StoryDocument>
   ) {}
 
-  async createStory(userNo: number, { content, x, y }: StoryCreationRequestDto): Promise<any> {
+  async createStory(
+    user: { userNo: number; nickname: string },
+    { content, x, y }: StoryCreationRequestDto
+  ): Promise<any> {
     // TODO: 하루에 100개 제한
     const story = new this.storyModel({
-      userNo,
+      userNo: user.userNo,
+      nickname: user.nickname,
       content,
       location: { type: 'Point', coordinates: [x, y] },
     });
@@ -92,7 +96,7 @@ export class StoryService {
   }
 
   async reactToStory(
-    userNo: number,
+    { userNo, nickname }: { userNo: number; nickname: string },
     { storyId, type }: { storyId: string; type: ReactionType }
   ): Promise<StoryResponseDto> {
     assertReactionType(type);
@@ -101,7 +105,7 @@ export class StoryService {
       return reaction.userNo !== userNo;
     });
 
-    story.reactions = [...filteredReactions, { userNo, type }];
+    story.reactions = [...filteredReactions, { userNo, nickname, type }];
     await story.save();
     return this.transformResponseStory(story);
   }
@@ -139,6 +143,7 @@ export class StoryService {
     updatedAt,
     _id,
     userNo,
+    nickname,
     location,
     reactions,
   }: StoryDocument): StoryResponseDto {
@@ -149,6 +154,7 @@ export class StoryService {
       reactions,
       updatedAt,
       userNo,
+      nickname,
       x: location.coordinates[0],
       y: location.coordinates[1],
     };

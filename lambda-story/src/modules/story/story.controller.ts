@@ -20,7 +20,7 @@ export class StoryController {
     @Req() req: AuthorizedRequest,
     @Body() dto: StoryCreationRequestDto
   ): Promise<StoryResponseDto> {
-    return await this.storyService.createStory(req.user.userNo, dto);
+    return await this.storyService.createStory(req.user, dto);
   }
 
   @Get('/me')
@@ -60,7 +60,7 @@ export class StoryController {
     @Body() { type }: ReactToStoryReqeustBodyDto,
     @Param() { storyId }: StoryIdReqeustParamDto
   ): Promise<StoryResponseDto> {
-    return await this.storyService.reactToStory(req.user.userNo, { storyId, type });
+    return await this.storyService.reactToStory(req.user, { storyId, type });
   }
 
   @Delete('/react/:storyId')
