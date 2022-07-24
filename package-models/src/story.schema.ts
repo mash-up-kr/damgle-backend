@@ -10,7 +10,12 @@ export class Story {
   @Prop({
     type: {
       type: String,
-      coordinates: [Number, Number],
+      enum: ['Point'],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
     },
   })
   location: {

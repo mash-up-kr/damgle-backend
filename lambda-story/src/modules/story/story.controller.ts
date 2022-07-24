@@ -20,16 +20,7 @@ export class StoryController {
     @Req() req: AuthorizedRequest,
     @Body() dto: StoryCreationRequestDto
   ): Promise<StoryResponseDto> {
-    return await this.storyService.createStory({
-      userNo: req.user.userNo,
-      ...dto,
-    });
-  }
-
-  @Get('/:id')
-  @Docs.getStoryOfId('담글을 조회합니다.')
-  async getStoryOfId(@Param('id') id: string): Promise<StoryResponseDto> {
-    return await this.storyService.getStoryOfId(id);
+    return await this.storyService.createStory(req.user.userNo, dto);
   }
 
   @Get('/me')
@@ -39,8 +30,7 @@ export class StoryController {
     @Req() req: AuthorizedRequest,
     @Query() dto: StoryOfMineQueryRequestDto
   ): Promise<StoryListResponseDto> {
-    return await this.storyService.getStoriesOfMine({
-      userNo: req.user.userNo,
+    return await this.storyService.getStoriesOfMine(req.user.userNo, {
       size: Number(dto.size || DEFAULT_QUERY_SIZE),
       startFromStoryId: dto.startFromStoryId || null,
     });
@@ -56,6 +46,12 @@ export class StoryController {
     });
   }
 
+  @Get('/:id')
+  @Docs.getStoryOfId('담글을 조회합니다.')
+  async getStoryOfId(@Param('id') id: string): Promise<StoryResponseDto> {
+    return await this.storyService.getStoryOfId(id);
+  }
+
   @Post('/react/:storyId')
   @UseGuards(JwtAuthGuard)
   @Docs.reactToStory('담글에 리액션을 남깁니다. (type: angry, amazing, sad, best, like)')
@@ -64,7 +60,7 @@ export class StoryController {
     @Body() { type }: ReactToStoryReqeustBodyDto,
     @Param() { storyId }: StoryIdReqeustParamDto
   ): Promise<StoryResponseDto> {
-    return await this.storyService.reactToStory({ storyId, type, userNo: req.user.userNo });
+    return await this.storyService.reactToStory(req.user.userNo, { storyId, type });
   }
 
   @Delete('/react/:storyId')
@@ -74,10 +70,7 @@ export class StoryController {
     @Req() req: AuthorizedRequest,
     @Param() { storyId }: StoryIdReqeustParamDto
   ): Promise<StoryResponseDto> {
-    return await this.storyService.removeReactionOfStory({
-      storyId,
-      userNo: req.user.userNo,
-    });
+    return await this.storyService.removeReactionOfStory(req.user.userNo, { storyId });
   }
 
   @Post('/report/:storyId')

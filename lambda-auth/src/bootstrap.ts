@@ -30,7 +30,14 @@ export async function bootstrap() {
       logger,
     }
   );
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    })
+  );
   app.setGlobalPrefix('/v1/auth');
   setupSwagger(app);
   await app.init();

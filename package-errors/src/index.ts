@@ -42,3 +42,23 @@ export class SignInFailureError extends ErrorOf.User(
   '로그인을 할 수 없습니다: {{reason}}',
   403
 ) {}
+
+export class StoryNotFoundError extends ErrorOf.User(
+  '{{id}} 아이디를 가진 담글을 찾을 수 없습니다.',
+  404
+) {}
+
+export class InvalidObjectIdFormatError extends ErrorOf.User(
+  '{{id}}는 유효한 아이디 포맷이 아닙니다.',
+  400
+) {}
+
+export class NotSupportedError extends ErrorOf.System(
+  '{{service}}는 현재 지원하지 않습니다.',
+  500
+) {}
+
+export class InvalidReactionTypeError extends ErrorOf.User(
+  '{{type}}은 유효한 Reaction이 타입이 아닙니다.',
+  400
+) {}
