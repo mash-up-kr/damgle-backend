@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { StoryCreationRequestDto, StoryResponseDto } from './dto/story.dto';
 import { InvalidObjectIdFormatError, StoryNotFoundError, NotSupportedError } from '@damgle/errors';
+import { StoryQueryRequestDto } from './dto/story-query.dto';
 
 @Injectable()
 export class StoryService {
@@ -51,8 +52,43 @@ export class StoryService {
     };
   }
 
-  async getStoryFeeds(...args: any[]): Promise<any> {
-    return;
+  async getStoryFeeds({
+    bottom,
+    left,
+    right,
+    size,
+    startFromStoryId,
+    top,
+  }: Omit<Required<StoryQueryRequestDto>, 'startFromStoryId'> & {
+    startFromStoryId: string | null;
+  }): Promise<any> {
+    const findQuery: Record<string, any> = {
+      location: {
+        $geoWithin: {
+          $geometry: {
+            type: 'Polygon',
+            coordinates: [
+              [
+                [right, bottom],
+                [right, top],
+                [left, top],
+                [left, bottom],
+                [right, bottom],
+              ],
+            ],
+          },
+        },
+      },
+    };
+    if (startFromStoryId != null) {
+      findQuery._id = { $lt: this.ensuredObjectId(startFromStoryId) };
+    }
+
+    const rawStories = await this.storyModel.find(findQuery).limit(size);
+    return {
+      size,
+      stories: rawStories.map(story => this.transformResponseStory(story)),
+    };
   }
 
   async reactToStory(
