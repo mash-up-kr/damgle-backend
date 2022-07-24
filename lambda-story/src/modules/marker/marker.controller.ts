@@ -7,8 +7,5 @@ export class MarkerController {
   constructor(private readonly marker: MarkerService) {}
 
   @Get()
-  @Docs.hello('hello')
-  async hello() {
-    return await this.marker.hello();
-  }
+  async findMarkers() {}
 }
