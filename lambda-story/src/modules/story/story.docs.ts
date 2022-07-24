@@ -1,5 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { StoryListResponseDto } from './dto/story-list.dto';
+import { StoryResponseDto } from './dto/story.dto';
 import { StoryController } from './story.controller';
 
 export type SwaggerMethodDoc<T> = {
@@ -8,27 +10,30 @@ export type SwaggerMethodDoc<T> = {
 
 export const Docs: SwaggerMethodDoc<StoryController> = {
   createStory(summary: string) {
-    return applyDecorators(
-      ApiOperation({ summary })
-      // ApiOkResponse({type: NameResult})
-    );
+    return applyDecorators(ApiOperation({ summary }), ApiOkResponse({ type: StoryResponseDto }));
   },
-  getStoriesForIds(summary: string) {
-    return applyDecorators(
-      ApiOperation({ summary })
-      // ApiOkResponse({type: NameResult})
-    );
+  getStoryOfId(summary: string) {
+    return applyDecorators(ApiOperation({ summary }), ApiOkResponse({ type: StoryResponseDto }));
   },
   getStoriesOfMine(summary: string) {
     return applyDecorators(
-      ApiOperation({ summary })
-      // ApiOkResponse({type: NameResult})
+      ApiOperation({ summary }),
+      ApiOkResponse({ type: StoryListResponseDto })
     );
   },
-  getStoryOfId(summary: string) {
+  getStoryFeeds(summary: string) {
     return applyDecorators(
-      ApiOperation({ summary })
-      // ApiOkResponse({type: NameResult})
+      ApiOperation({ summary }),
+      ApiOkResponse({ type: StoryListResponseDto })
     );
+  },
+  reactToStory(summary: string) {
+    return applyDecorators(ApiOperation({ summary }), ApiOkResponse({ type: StoryResponseDto }));
+  },
+  removeReactionOfStory(summary: string) {
+    return applyDecorators(ApiOperation({ summary }), ApiOkResponse({ type: StoryResponseDto }));
+  },
+  reportStory(summary: string) {
+    return applyDecorators(ApiOperation({ summary }));
   },
 };
