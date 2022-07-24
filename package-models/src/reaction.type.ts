@@ -10,6 +10,7 @@ export enum ReactionType {
 
 export type Reaction = {
   userNo: number;
+  nickname: string;
   type: ReactionType;
 };
 

@@ -7,6 +7,9 @@ export class Story {
   @Prop({ index: true })
   userNo: number;
 
+  @Prop()
+  nickname: string;
+
   @Prop({
     type: {
       type: String,
