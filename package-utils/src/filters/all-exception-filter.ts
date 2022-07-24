@@ -1,8 +1,11 @@
 import { BaseError } from '@damgle/errors';
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 import Sentry from '@sentry/node';
-import type { Response } from 'express';
+// import type { Response } from 'express';
 import { staticEnv } from '../env.static';
+
+// Ignore express type;
+type Response = any;
 
 export enum ErrorKind {
   Http = 'http',
