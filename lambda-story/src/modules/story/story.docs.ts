@@ -7,7 +7,25 @@ export type SwaggerMethodDoc<T> = {
 };
 
 export const Docs: SwaggerMethodDoc<StoryController> = {
-  hello(summary: string) {
+  createStory(summary: string) {
+    return applyDecorators(
+      ApiOperation({ summary })
+      // ApiOkResponse({type: NameResult})
+    );
+  },
+  getStoriesForIds(summary: string) {
+    return applyDecorators(
+      ApiOperation({ summary })
+      // ApiOkResponse({type: NameResult})
+    );
+  },
+  getStoriesOfMine(summary: string) {
+    return applyDecorators(
+      ApiOperation({ summary })
+      // ApiOkResponse({type: NameResult})
+    );
+  },
+  getStoryOfId(summary: string) {
     return applyDecorators(
       ApiOperation({ summary })
       // ApiOkResponse({type: NameResult})
