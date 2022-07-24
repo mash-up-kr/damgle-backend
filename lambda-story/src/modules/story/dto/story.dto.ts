@@ -8,6 +8,9 @@ export class StoryResponseDto {
   @ApiProperty({ description: '유저 번호' })
   userNo: number;
 
+  @ApiProperty({ description: '유저 닉네임' })
+  nickname: string;
+
   @ApiProperty({ description: '경도(longitude)' })
   x: number;
 
@@ -17,7 +20,7 @@ export class StoryResponseDto {
   @ApiProperty({ description: '담글 본문' })
   content: string;
 
-  @ApiProperty({ description: '리액션 목록' })
+  @ApiProperty({ description: '리액션 목록', type: () => [ReactionResponseDto] })
   reactions: ReactionResponseDto[];
 
   @ApiProperty({ description: '생성 시각(unix time ms)' })
@@ -41,6 +44,9 @@ export class StoryCreationRequestDto {
 export class ReactionResponseDto {
   @ApiProperty({ description: '유저 번호' })
   userNo: number;
+
+  @ApiProperty({ description: '유저 닉네임' })
+  nickname: string;
 
   @ApiProperty({
     enum: ReactionType,
