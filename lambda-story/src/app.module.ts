@@ -5,7 +5,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CacheableModule } from './core/cache';
 import { configModule } from './core/config';
 import { StoryModule } from './modules/story/story.module';
-import { MarkerModule } from './modules/marker/marker.module';
 
 @Module({
   imports: [
@@ -16,7 +15,6 @@ import { MarkerModule } from './modules/marker/marker.module';
       { dbName: staticEnv.mongodb_database }
     ),
     StoryModule,
-    MarkerModule,
   ],
   providers: [{ provide: APP_FILTER, useClass: AllExceptionFilter }],
 })
