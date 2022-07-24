@@ -156,7 +156,7 @@ export class StoryService {
 
   private ensuredObjectId(id: string) {
     try {
-      new Types.ObjectId(id);
+      return new Types.ObjectId(id);
     } catch (cause) {
       throw new InvalidObjectIdFormatError({ id, cause });
     }
