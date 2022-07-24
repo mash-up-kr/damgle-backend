@@ -1,6 +1,7 @@
 import { GoogleSheetRepository } from './google-sheet.repository';
 import { createApi, GoogleSheetApiConfig } from './google-sheet.api';
 import { staticEnv } from '@damgle/utils';
+export { createAuth, createAuthFromTerminal } from './google-sheet.auth';
 
 export namespace GoogleSheet {
   export type NickNameCandidates = { adjectives: string[]; nouns: string[] };

@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema({ collection: 'story', timestamps: true })
+@Schema({ collection: 'story', timestamps: { currentTime: () => Date.now() } })
 export class Story {
   @Prop({ index: true, unique: true })
   userNo: number;
@@ -19,10 +19,10 @@ export class Story {
   };
 
   @Prop()
-  createdAt: Date;
+  createdAt: number;
 
   @Prop()
-  updatedAt: Date;
+  updatedAt: number;
 }
 
 export type StoryDocument = Story & Document;
