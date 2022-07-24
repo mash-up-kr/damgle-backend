@@ -7,19 +7,35 @@ type Story = any;
 export class StoryService {
   constructor() {}
 
-  async createStory() {
-    return true;
+  async createStory(...args: any[]): Promise<any> {
+    return;
   }
 
   async getStoryOfId(id: string): Promise<Story> {
-    return true;
+    return;
   }
 
-  async getStoriesOfMine(): Promise<Story[]> {
+  async getStoriesOfMine(...args: any[]): Promise<Story> {
     return [];
   }
 
   async getStoriesForIds(ids: string[]): Promise<Story[]> {
     return [];
+  }
+
+  async getStoryFeeds(...args: any[]): Promise<any> {
+    return;
+  }
+
+  async reactToStory(...args: any[]): Promise<any> {
+    return;
+  }
+
+  async removeReactionOfStory(...args: any[]): Promise<any> {
+    return;
+  }
+
+  async reportStory(...args: any[]): Promise<any> {
+    return;
   }
 }
