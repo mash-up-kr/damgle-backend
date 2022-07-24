@@ -1,22 +1,28 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Reaction } from './reaction.type';
 
 @Schema({ collection: 'story', timestamps: { currentTime: () => Date.now() } })
 export class Story {
-  @Prop({ index: true, unique: true })
+  @Prop({ index: true })
   userNo: number;
 
-  @Prop()
-  nickname: string;
-
-  @Prop()
-  refreshToken: string;
-
-  @Prop()
+  @Prop({
+    type: {
+      type: String,
+      coordinates: [Number, Number],
+    },
+  })
   location: {
     type: 'Point';
     coordinates: [longitude: number, latitude: number];
   };
+
+  @Prop()
+  content: string;
+
+  @Prop()
+  reactions: Reaction[];
 
   @Prop()
   createdAt: number;
