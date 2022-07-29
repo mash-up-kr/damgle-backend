@@ -23,4 +23,17 @@ export const Docs: SwaggerMethodDoc<AuthController> = {
       })
     );
   },
+  deleteMe(summary: string) {
+    return applyDecorators(
+      ApiBearerAuth(),
+      ApiOperation({ summary }),
+      ApiOkResponse({
+        schema: {
+          properties: {
+            message: { type: 'string' }
+          }
+        }
+      })
+    )
+  }
 };

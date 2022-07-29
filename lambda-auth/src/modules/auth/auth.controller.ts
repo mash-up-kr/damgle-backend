@@ -1,12 +1,12 @@
 import { AuthorizedRequest, JwtAuthGuard } from '@damgle/utils';
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { Docs } from './auth.docs';
 import { SignInPayload, SignInResult, SignUpPayload, SignUpResult } from './auth.dto';
 import { AuthService } from './auth.service';
 
 @Controller()
 export class AuthController {
-  constructor(private readonly auth: AuthService) {}
+  constructor(private readonly auth: AuthService) { }
 
   @Post('/signup')
   @Docs.signUp('닉네임으로 유저를 생성합니다.')
@@ -40,5 +40,13 @@ export class AuthController {
       userNo: req.user.userNo,
       nickname: req.user.nickname,
     };
+  }
+
+  @Delete('/deleteme')
+  @UseGuards(JwtAuthGuard)
+  @Docs.deleteMe('서비스를 탈퇴합니다.')
+  async deleteMe(@Req() req: AuthorizedRequest): Promise<{ message: string; }> {
+    const msg = await this.auth.deleteMe(req.user.userNo);
+    return { message: msg };
   }
 }

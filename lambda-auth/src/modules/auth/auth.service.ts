@@ -1,12 +1,12 @@
-import { DuplicatedNickNameError, SignInFailureError } from '@damgle/errors';
+import { DuplicatedNickNameError, SignInFailureError, UserNotFoundError } from '@damgle/errors';
+import { User, UserCounter, UserCounterDocument, UserDocument } from '@damgle/models';
+import { staticEnv } from '@damgle/utils';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { SignInPayload, SignUpPayload } from './auth.dto';
-import { staticEnv } from '@damgle/utils';
-import { v4 as uuidv4 } from 'uuid';
 import * as jwt from 'jsonwebtoken';
-import { User, UserCounter, UserCounterDocument, UserDocument } from '@damgle/models';
+import { Model } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
+import { SignInPayload, SignUpPayload } from './auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +15,7 @@ export class AuthService {
     private readonly userModel: Model<UserDocument>,
     @InjectModel(UserCounter.name)
     private readonly userCounterModel: Model<UserCounterDocument>
-  ) {}
+  ) { }
 
   async signup({ nickname }: SignUpPayload) {
     if (await this.userModel.findOne({ nickname })) {
@@ -47,6 +47,15 @@ export class AuthService {
       return [user, accessToken] as const;
     }
     throw new SignInFailureError({ reason: 'userNo와 refreshToken 정보가 존재하지 않습니다.' });
+  }
+
+  async deleteMe(userNo: number): Promise<string> {
+    const user = await this.userModel.findOne({ userNo });
+    if (user) {
+      await this.userModel.deleteOne({ userNo });
+      return `Successfully deleted User ${userNo}`;
+    }
+    throw new UserNotFoundError({ userNo });
   }
 
   private issueToken(user: User): { accessToken: string; refreshToken: string } {
