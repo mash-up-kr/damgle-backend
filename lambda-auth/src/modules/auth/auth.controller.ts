@@ -16,6 +16,7 @@ export class AuthController {
       accessToken,
       userNo: user.userNo,
       nickname: user.nickname,
+      notification: user.notification,
       refreshToken: user.refreshToken,
     };
   }
@@ -28,6 +29,7 @@ export class AuthController {
       accessToken,
       userNo: user.userNo,
       nickname: user.nickname,
+      notification: user.notification,
       refreshToken: user.refreshToken,
     };
   }
@@ -35,10 +37,12 @@ export class AuthController {
   @Get('/me')
   @UseGuards(JwtAuthGuard)
   @Docs.me('내 정보를 가져옵니다.')
-  async me(@Req() req: AuthorizedRequest): Promise<{ userNo: number; nickname: string }> {
+  async me(@Req() req: AuthorizedRequest): Promise<{ userNo: number; nickname: string; notification: boolean; }> {
+    const myNotification = await this.auth.myNotification(req.user.userNo);
     return {
       userNo: req.user.userNo,
       nickname: req.user.nickname,
+      notification: myNotification,
     };
   }
 

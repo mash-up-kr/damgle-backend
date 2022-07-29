@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
 export class AuthResponse {
   @IsString()
@@ -9,6 +9,10 @@ export class AuthResponse {
   @IsNumber()
   @ApiProperty()
   userNo: number;
+
+  @IsBoolean()
+  @ApiProperty()
+  notification: boolean;
 
   @IsString()
   @ApiProperty()
@@ -23,9 +27,13 @@ export class SignUpPayload {
   @IsString()
   @ApiProperty()
   nickname: string;
+
+  @IsBoolean()
+  @ApiProperty({ default: false })
+  notification: boolean;
 }
 
-export class SignUpResult extends AuthResponse {}
+export class SignUpResult extends AuthResponse { }
 
 export class SignInPayload {
   @IsNumber()
@@ -37,4 +45,4 @@ export class SignInPayload {
   refreshToken: string;
 }
 
-export class SignInResult extends AuthResponse {}
+export class SignInResult extends AuthResponse { }

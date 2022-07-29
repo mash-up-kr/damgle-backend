@@ -19,7 +19,13 @@ export const Docs: SwaggerMethodDoc<AuthController> = {
       ApiBearerAuth(),
       ApiOperation({ summary }),
       ApiOkResponse({
-        schema: { properties: { userNo: { type: 'number' }, nickname: { type: 'string' } } },
+        schema: {
+          properties: {
+            userNo: { type: 'number' },
+            nickname: { type: 'string' },
+            notification: { type: 'boolean', default: false }
+          }
+        },
       })
     );
   },

@@ -10,6 +10,9 @@ export class User {
   nickname: string;
 
   @Prop()
+  notification: boolean;
+
+  @Prop()
   refreshToken: string;
 }
 export type UserDocument = User & Document;

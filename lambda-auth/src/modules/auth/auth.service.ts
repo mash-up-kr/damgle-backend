@@ -17,7 +17,7 @@ export class AuthService {
     private readonly userCounterModel: Model<UserCounterDocument>
   ) { }
 
-  async signup({ nickname }: SignUpPayload) {
+  async signup({ nickname, notification }: SignUpPayload) {
     if (await this.userModel.findOne({ nickname })) {
       throw new DuplicatedNickNameError({ nickname });
     }
@@ -25,6 +25,7 @@ export class AuthService {
     const user = await this.userModel.create({
       userNo,
       nickname,
+      notification,
       refreshToken: '',
     });
 
@@ -47,6 +48,14 @@ export class AuthService {
       return [user, accessToken] as const;
     }
     throw new SignInFailureError({ reason: 'userNo와 refreshToken 정보가 존재하지 않습니다.' });
+  }
+
+  async myNotification(userNo: number): Promise<boolean> {
+    const user = await this.userModel.findOne({ userNo });
+    if (user) {
+      return user?.notification;
+    }
+    throw new UserNotFoundError({ userNo });
   }
 
   async deleteMe(userNo: number): Promise<string> {
