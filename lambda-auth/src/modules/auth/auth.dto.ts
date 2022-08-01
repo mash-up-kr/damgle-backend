@@ -46,3 +46,17 @@ export class SignInPayload {
 }
 
 export class SignInResult extends AuthResponse { }
+
+export class UserInfoResponse {
+  @IsString()
+  @ApiProperty()
+  nickname: string;
+
+  @IsNumber()
+  @ApiProperty()
+  userNo: number;
+
+  @IsBoolean()
+  @ApiProperty({ description: '푸시 알람 활성화 여부' })
+  notification: boolean;
+}

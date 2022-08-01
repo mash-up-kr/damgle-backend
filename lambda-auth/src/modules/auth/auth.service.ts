@@ -50,10 +50,22 @@ export class AuthService {
     throw new SignInFailureError({ reason: 'userNo와 refreshToken 정보가 존재하지 않습니다.' });
   }
 
-  async myNotification(userNo: number): Promise<boolean> {
+  async me(userNo: number) {
+    const user = await this.userModel.findOne({ userNo });
+    if (!user) throw new UserNotFoundError({ userNo });
+    return user;
+  }
+
+  async notify(userNo: number) {
     const user = await this.userModel.findOne({ userNo });
     if (user) {
-      return user?.notification;
+      await this.userModel.updateOne(
+        { userNo: userNo },
+        { $set: { notification: !user.notification } },
+        { upsert: true }
+      ).exec();
+
+      return await this.me(userNo);
     }
     throw new UserNotFoundError({ userNo });
   }

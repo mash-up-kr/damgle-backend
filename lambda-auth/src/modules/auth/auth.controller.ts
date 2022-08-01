@@ -1,7 +1,7 @@
 import { AuthorizedRequest, JwtAuthGuard } from '@damgle/utils';
-import { Body, Controller, Delete, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { Docs } from './auth.docs';
-import { SignInPayload, SignInResult, SignUpPayload, SignUpResult } from './auth.dto';
+import { SignInPayload, SignInResult, SignUpPayload, SignUpResult, UserInfoResponse } from './auth.dto';
 import { AuthService } from './auth.service';
 
 @Controller()
@@ -37,12 +37,24 @@ export class AuthController {
   @Get('/me')
   @UseGuards(JwtAuthGuard)
   @Docs.me('내 정보를 가져옵니다.')
-  async me(@Req() req: AuthorizedRequest): Promise<{ userNo: number; nickname: string; notification: boolean; }> {
-    const myNotification = await this.auth.myNotification(req.user.userNo);
+  async me(@Req() req: AuthorizedRequest): Promise<UserInfoResponse> {
+    const user = await this.auth.me(req.user.userNo);
     return {
-      userNo: req.user.userNo,
-      nickname: req.user.nickname,
-      notification: myNotification,
+      userNo: user.userNo,
+      nickname: user.nickname,
+      notification: user.notification,
+    };
+  }
+
+  @Patch('/notify')
+  @UseGuards(JwtAuthGuard)
+  @Docs.notify('푸시 알람 설정을 변경합니다.')
+  async notify(@Req() req: AuthorizedRequest): Promise<UserInfoResponse> {
+    const updateUser = await this.auth.notify(req.user.userNo);
+    return {
+      userNo: updateUser.userNo,
+      nickname: updateUser.nickname,
+      notification: updateUser.notification,
     };
   }
 

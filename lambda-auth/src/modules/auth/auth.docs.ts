@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { AuthController } from './auth.controller';
-import { SignInResult, SignUpResult } from './auth.dto';
+import { SignInResult, SignUpResult, UserInfoResponse } from './auth.dto';
 
 export type SwaggerMethodDoc<T> = {
   [K in keyof T]: (summary: string) => MethodDecorator;
@@ -18,15 +18,14 @@ export const Docs: SwaggerMethodDoc<AuthController> = {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({ summary }),
-      ApiOkResponse({
-        schema: {
-          properties: {
-            userNo: { type: 'number' },
-            nickname: { type: 'string' },
-            notification: { type: 'boolean', default: false }
-          }
-        },
-      })
+      ApiOkResponse({ type: UserInfoResponse })
+    );
+  },
+  notify(summary: string) {
+    return applyDecorators(
+      ApiBearerAuth(),
+      ApiOperation({ summary }),
+      ApiOkResponse({ type: UserInfoResponse })
     );
   },
   deleteMe(summary: string) {
