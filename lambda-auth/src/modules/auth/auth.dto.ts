@@ -3,33 +3,33 @@ import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
 export class AuthResponse {
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ description: '사용자 닉네임', example: '잠자는 첫번째 오리' })
   nickname: string;
 
   @IsNumber()
-  @ApiProperty()
+  @ApiProperty({ description: '사용자 번호', example: '5' })
   userNo: number;
 
   @IsBoolean()
-  @ApiProperty()
+  @ApiProperty({ description: '푸시 알람 활성화 여부', example: 'true', default: false })
   notification: boolean;
 
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ description: '사용자 Access Token' })
   accessToken: string;
 
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ description: '사용자 Refresh Token' })
   refreshToken: string;
 }
 
 export class SignUpPayload {
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ description: '사용자 닉네임', example: '잠자는 첫번째 오리' })
   nickname: string;
 
   @IsBoolean()
-  @ApiProperty({ default: false })
+  @ApiProperty({ description: '푸시 알람 활성화 여부', example: 'true', default: false })
   notification: boolean;
 }
 
@@ -37,11 +37,11 @@ export class SignUpResult extends AuthResponse { }
 
 export class SignInPayload {
   @IsNumber()
-  @ApiProperty()
+  @ApiProperty({ description: '사용자 번호', example: '5' })
   userNo: number;
 
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ description: '사용자 Refresh Token' })
   refreshToken: string;
 }
 
@@ -49,14 +49,14 @@ export class SignInResult extends AuthResponse { }
 
 export class UserInfoResponse {
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ description: '사용자 닉네임', example: '잠자는 첫번째 오리' })
   nickname: string;
 
   @IsNumber()
-  @ApiProperty()
+  @ApiProperty({ description: '사용자 번호', example: '5' })
   userNo: number;
 
   @IsBoolean()
-  @ApiProperty({ description: '푸시 알람 활성화 여부' })
+  @ApiProperty({ description: '푸시 알람 활성화 여부', example: 'true', default: false })
   notification: boolean;
 }

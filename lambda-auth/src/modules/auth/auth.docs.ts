@@ -35,7 +35,10 @@ export const Docs: SwaggerMethodDoc<AuthController> = {
       ApiOkResponse({
         schema: {
           properties: {
-            message: { type: 'string' }
+            message: {
+              type: 'string',
+              example: 'Successfully deleted User 5'
+            }
           }
         }
       })
