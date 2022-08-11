@@ -1,10 +1,10 @@
+import { InvalidObjectIdFormatError, StoryNotFoundError } from '@damgle/errors';
 import { assertReactionType, ReactionType, Story, StoryDocument } from '@damgle/models';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
-import { StoryCreationRequestDto, StoryResponseDto } from './dto/story.dto';
-import { InvalidObjectIdFormatError, StoryNotFoundError, NotSupportedError } from '@damgle/errors';
+import { ClientSession, Model, Types, UpdateQuery } from 'mongoose';
 import { StoryQueryRequestDto } from './dto/story-query.dto';
+import { StoryCreationRequestDto, StoryResponseDto } from './dto/story.dto';
 
 @Injectable()
 export class StoryService {
@@ -30,8 +30,28 @@ export class StoryService {
   }
 
   async getStoryOfId(id: string): Promise<StoryResponseDto> {
-    const story = await this.storyOf(id);
+    const story = await this.getStoryDocumentOfId(id);
     return this.transformResponseStory(story);
+  }
+
+  async updateStory(
+    id: string,
+    update: UpdateQuery<StoryDocument>,
+    session?: ClientSession
+  ): Promise<StoryResponseDto> {
+    this.ensuredObjectId(id);
+    let updateTask = this.storyModel.findOneAndUpdate({ _id: id }, update, { new: true });
+
+    if (session) {
+      updateTask = updateTask.session(session);
+    }
+
+    const storyDocumentUpdated = await updateTask.exec();
+    if (storyDocumentUpdated == null) {
+      throw new StoryNotFoundError({ id });
+    }
+
+    return this.transformResponseStory(storyDocumentUpdated);
   }
 
   async getStoriesOfMine(
@@ -41,7 +61,6 @@ export class StoryService {
       startFromStoryId,
     }: {
       size: number;
-      // TODO: 이거 되도록 픽스
       startFromStoryId: string | null;
     }
   ): Promise<any> {
@@ -100,7 +119,7 @@ export class StoryService {
     { storyId, type }: { storyId: string; type: ReactionType }
   ): Promise<StoryResponseDto> {
     assertReactionType(type);
-    const story = await this.storyOf(storyId);
+    const story = await this.getStoryDocumentOfId(storyId);
     const filteredReactions = story.reactions.filter(reaction => {
       return reaction.userNo !== userNo;
     });
@@ -110,11 +129,11 @@ export class StoryService {
     return this.transformResponseStory(story);
   }
 
-  async removeReactionOfStory(
+  async removeReactionFromStory(
     userNo: number,
     { storyId }: { storyId: string }
   ): Promise<StoryResponseDto> {
-    const story = await this.storyOf(storyId);
+    const story = await this.getStoryDocumentOfId(storyId);
     story.reactions = story.reactions.filter(reaction => {
       return reaction.userNo !== userNo;
     });
@@ -123,12 +142,7 @@ export class StoryService {
     return this.transformResponseStory(story);
   }
 
-  async reportStory(...args: any[]): Promise<any> {
-    void args;
-    throw new NotSupportedError({ service: '담글 신고 기능' });
-  }
-
-  private async storyOf(id: string): Promise<StoryDocument> {
+  async getStoryDocumentOfId(id: string): Promise<StoryDocument> {
     this.ensuredObjectId(id);
     const story = await this.storyModel.findById(id);
     if (story == null) {
@@ -146,6 +160,7 @@ export class StoryService {
     nickname,
     location,
     reactions,
+    reports,
   }: StoryDocument): StoryResponseDto {
     return {
       content,
@@ -155,6 +170,7 @@ export class StoryService {
       updatedAt,
       userNo,
       nickname,
+      reports,
       x: location.coordinates[0],
       y: location.coordinates[1],
     };
