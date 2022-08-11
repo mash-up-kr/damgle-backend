@@ -1,5 +1,6 @@
 import { ReactionType } from '@damgle/models';
 import { ApiProperty } from '@nestjs/swagger';
+import { ReportResponseDto } from './report.dto';
 
 export class StoryResponseDto {
   @ApiProperty({ description: '스토리 아이디' })
@@ -22,6 +23,9 @@ export class StoryResponseDto {
 
   @ApiProperty({ description: '리액션 목록', type: () => [ReactionResponseDto] })
   reactions: ReactionResponseDto[];
+
+  @ApiProperty({ description: '신고목록', type: () => [ReportResponseDto] })
+  reports: ReportResponseDto[];
 
   @ApiProperty({ description: '생성 시각(unix time ms)' })
   createdAt: number;
