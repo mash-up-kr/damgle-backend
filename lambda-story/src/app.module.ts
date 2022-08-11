@@ -4,6 +4,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CacheableModule } from './core/cache';
 import { configModule } from './core/config';
+import { ReportModule } from './modules/report/report.module';
 import { StoryModule } from './modules/story/story.module';
 
 @Module({
@@ -15,6 +16,7 @@ import { StoryModule } from './modules/story/story.module';
       { dbName: staticEnv.mongodb_database }
     ),
     StoryModule,
+    ReportModule,
   ],
   providers: [{ provide: APP_FILTER, useClass: AllExceptionFilter }],
 })
