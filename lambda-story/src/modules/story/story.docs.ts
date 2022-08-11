@@ -46,7 +46,4 @@ export const Docs: SwaggerMethodDoc<StoryController> = {
       ApiOkResponse({ type: StoryResponseDto })
     );
   },
-  reportStory(summary: string) {
-    return applyDecorators(ApiBearerAuth(), ApiOperation({ summary }));
-  },
 };

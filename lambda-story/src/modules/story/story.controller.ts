@@ -70,17 +70,6 @@ export class StoryController {
     @Req() req: AuthorizedRequest,
     @Param() { storyId }: StoryIdReqeustParamDto
   ): Promise<StoryResponseDto> {
-    return await this.storyService.removeReactionOfStory(req.user.userNo, { storyId });
-  }
-
-  @Post('/report/:storyId')
-  @UseGuards(JwtAuthGuard)
-  @Docs.reportStory('스토리를 신고합니다.')
-  async reportStory(@Req() req: AuthorizedRequest, @Param() { storyId }: StoryIdReqeustParamDto) {
-    await this.storyService.reportStory({
-      userNo: req.user.userNo,
-      storyId,
-    });
-    return { accepted: true };
+    return await this.storyService.removeReactionFromStory(req.user.userNo, { storyId });
   }
 }
