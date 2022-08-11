@@ -7,6 +7,7 @@ import { StoryService } from './story.service';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: Story.name, schema: StorySchema }])],
+  exports: [StoryService],
   providers: [StoryService, JwtStrategy],
   controllers: [StoryController],
 })
