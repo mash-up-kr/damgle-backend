@@ -27,6 +27,9 @@ export class StoryResponseDto {
   @ApiProperty({ description: '리액션 순서 및 갯수', type: () => [ReactionSummaryItemResponseDto] })
   reactionSummary: ReactionSummaryItemResponseDto[];
 
+  @ApiProperty({ description: '내 리액션', type: () => ReactionSummaryItemResponseDto })
+  reactionOfMine: ReactionResponseDto | null;
+
   @ApiProperty({ description: '신고목록', type: () => [ReportResponseDto] })
   reports: ReportResponseDto[];
 

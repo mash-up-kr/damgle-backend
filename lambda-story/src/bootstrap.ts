@@ -1,10 +1,10 @@
+import { initSentry, LocalAuthMiddleware, staticEnv, withSentryCaptured } from '@damgle/utils';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import express from 'express';
 import { AppModule } from './app.module';
 import { setupSwagger } from './core/docs';
-import { initSentry, staticEnv, withSentryCaptured } from '@damgle/utils';
 
 initSentry();
 withSentryCaptured(() => require('pretty-error').start());
@@ -30,6 +30,7 @@ export async function bootstrap() {
       logger,
     }
   );
+  app.use(LocalAuthMiddleware);
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

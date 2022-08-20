@@ -1,4 +1,5 @@
 import { Report, ReportDocument } from '@damgle/models';
+import { RequestUser } from '@damgle/utils';
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
@@ -14,27 +15,22 @@ export class ReportService {
     private readonly storyService: StoryService
   ) {}
 
-  async reportStory({
-    userNo,
-    storyId,
-  }: {
-    userNo: number;
-    storyId: string;
-  }): Promise<StoryResponseDto> {
+  async reportStory(user: RequestUser, storyId: string): Promise<StoryResponseDto> {
     const session = await this.connection.startSession();
     session.startTransaction();
 
-    const story = await this.storyService.getStoryOfId(storyId);
-    if (story.reports.find(report => report.userNo === userNo)) {
+    const story = await this.storyService.getStoryOfId(user, storyId);
+    if (story.reports.find(report => report.userNo === user.userNo)) {
       return story;
     }
 
-    const report = new this.reportModel({ userNo, storyId });
+    const report = new this.reportModel({ userNo: user.userNo, storyId });
     await report.save();
     const storyUpdated = await this.storyService.updateStory(
+      user,
       storyId,
       {
-        $set: { reports: [...story.reports, { userNo, createdAt: report.createdAt }] },
+        $set: { reports: [...story.reports, { userNo: user.userNo, createdAt: report.createdAt }] },
       },
       session
     );
@@ -44,26 +40,21 @@ export class ReportService {
     return storyUpdated;
   }
 
-  async cancelReportStory({
-    userNo,
-    storyId,
-  }: {
-    userNo: number;
-    storyId: string;
-  }): Promise<StoryResponseDto> {
+  async cancelReportStory(user: RequestUser, storyId: string): Promise<StoryResponseDto> {
     const session = await this.connection.startSession();
     session.startTransaction();
 
-    const story = await this.storyService.getStoryOfId(storyId);
-    if (!story.reports.find(report => report.userNo === userNo)) {
+    const story = await this.storyService.getStoryOfId(user, storyId);
+    if (!story.reports.find(report => report.userNo === user.userNo)) {
       return story;
     }
 
-    await this.reportModel.deleteOne({ userNo, storyId });
+    await this.reportModel.deleteOne({ userNo: user.userNo, storyId });
     const storyUpdated = await this.storyService.updateStory(
+      user,
       storyId,
       {
-        $set: { reports: story.reports.filter(report => report.userNo !== userNo) },
+        $set: { reports: story.reports.filter(report => report.userNo !== user.userNo) },
       },
       session
     );

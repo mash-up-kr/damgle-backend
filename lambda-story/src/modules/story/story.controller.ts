@@ -30,16 +30,20 @@ export class StoryController {
     @Req() req: AuthorizedRequest,
     @Query() dto: StoryOfMineQueryRequestDto
   ): Promise<StoryListResponseDto> {
-    return await this.storyService.getStoriesOfMine(req.user.userNo, {
+    return await this.storyService.getStoriesOfMine(req.user, {
       size: Number(dto.size || DEFAULT_QUERY_SIZE),
       startFromStoryId: dto.startFromStoryId || null,
     });
   }
 
   @Get('/feed')
+  @UseGuards(JwtAuthGuard)
   @Docs.getStoryFeeds('담글을 위치 범위를 지정하여 조회합니다.')
-  async getStoryFeeds(@Query() dto: StoryQueryRequestDto): Promise<StoryListResponseDto> {
-    return await this.storyService.getStoryFeeds({
+  async getStoryFeeds(
+    @Req() req: AuthorizedRequest,
+    @Query() dto: StoryQueryRequestDto
+  ): Promise<StoryListResponseDto> {
+    return await this.storyService.getStoryFeeds(req.user, {
       ...dto,
       size: Number(dto.size || DEFAULT_QUERY_SIZE),
       startFromStoryId: dto.startFromStoryId || null,
@@ -47,9 +51,13 @@ export class StoryController {
   }
 
   @Get('/:id')
+  @UseGuards(JwtAuthGuard)
   @Docs.getStoryOfId('담글을 조회합니다.')
-  async getStoryOfId(@Param('id') id: string): Promise<StoryResponseDto> {
-    return await this.storyService.getStoryOfId(id);
+  async getStoryOfId(
+    @Req() req: AuthorizedRequest,
+    @Param('id') id: string
+  ): Promise<StoryResponseDto> {
+    return await this.storyService.getStoryOfId(req.user, id);
   }
 
   @Post('/react/:storyId')
@@ -70,6 +78,6 @@ export class StoryController {
     @Req() req: AuthorizedRequest,
     @Param() { storyId }: StoryIdReqeustParamDto
   ): Promise<StoryResponseDto> {
-    return await this.storyService.removeReactionFromStory(req.user.userNo, { storyId });
+    return await this.storyService.removeReactionFromStory(req.user, { storyId });
   }
 }

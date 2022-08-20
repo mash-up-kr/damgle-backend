@@ -1,5 +1,6 @@
 import { InvalidObjectIdFormatError, StoryNotFoundError } from '@damgle/errors';
 import { assertReactionType, Reaction, ReactionType, Story, StoryDocument } from '@damgle/models';
+import { RequestUser } from '@damgle/utils';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ClientSession, Model, Types, UpdateQuery } from 'mongoose';
@@ -17,10 +18,7 @@ export class StoryService {
     private readonly storyModel: Model<StoryDocument>
   ) {}
 
-  async createStory(
-    user: { userNo: number; nickname: string },
-    { content, x, y }: StoryCreationRequestDto
-  ): Promise<any> {
+  async createStory(user: RequestUser, { content, x, y }: StoryCreationRequestDto): Promise<any> {
     // TODO: 하루에 100개 제한
     const story = new this.storyModel({
       userNo: user.userNo,
@@ -32,21 +30,22 @@ export class StoryService {
     });
     await story.save();
 
-    return this.transformResponseStory(story);
+    return this.transformResponseStory(story, user);
   }
 
-  async getStoryOfId(id: string): Promise<StoryResponseDto> {
+  async getStoryOfId(user: RequestUser, id: string): Promise<StoryResponseDto> {
     const story = await this.getStoryDocumentOfId(id);
-    return this.transformResponseStory(story);
+    return this.transformResponseStory(story, user);
   }
 
   async updateStory(
-    id: string,
+    user: RequestUser,
+    storyId: string,
     update: UpdateQuery<StoryDocument>,
     session?: ClientSession
   ): Promise<StoryResponseDto> {
-    this.ensuredObjectId(id);
-    let updateTask = this.storyModel.findOneAndUpdate({ _id: id }, update, { new: true });
+    this.ensuredObjectId(storyId);
+    let updateTask = this.storyModel.findOneAndUpdate({ _id: storyId }, update, { new: true });
 
     if (session) {
       updateTask = updateTask.session(session);
@@ -54,43 +53,40 @@ export class StoryService {
 
     const storyDocumentUpdated = await updateTask.exec();
     if (storyDocumentUpdated == null) {
-      throw new StoryNotFoundError({ id });
+      throw new StoryNotFoundError({ id: storyId });
     }
 
-    return this.transformResponseStory(storyDocumentUpdated);
+    return this.transformResponseStory(storyDocumentUpdated, user);
   }
 
   async getStoriesOfMine(
-    userNo: number,
-    {
-      size,
-      startFromStoryId,
-    }: {
-      size: number;
-      startFromStoryId: string | null;
-    }
+    user: RequestUser,
+    { size, startFromStoryId }: { size: number; startFromStoryId: string | null }
   ): Promise<any> {
-    const findQuery: Record<string, any> = { userNo };
+    const findQuery: Record<string, any> = { userNo: user.userNo };
     if (startFromStoryId != null) {
       findQuery._id = { $lt: this.ensuredObjectId(startFromStoryId) };
     }
     const rawStories = await this.storyModel.find(findQuery).limit(size);
     return {
       size,
-      stories: rawStories.map(story => this.transformResponseStory(story)),
+      stories: rawStories.map(story => this.transformResponseStory(story, user)),
     };
   }
 
-  async getStoryFeeds({
-    bottom,
-    left,
-    right,
-    size,
-    startFromStoryId,
-    top,
-  }: Omit<Required<StoryQueryRequestDto>, 'startFromStoryId'> & {
-    startFromStoryId: string | null;
-  }): Promise<any> {
+  async getStoryFeeds(
+    user: RequestUser,
+    {
+      top,
+      bottom,
+      left,
+      right,
+      size,
+      startFromStoryId,
+    }: Omit<Required<StoryQueryRequestDto>, 'startFromStoryId'> & {
+      startFromStoryId: string | null;
+    }
+  ): Promise<any> {
     const findQuery: Record<string, any> = {
       location: {
         $geoWithin: {
@@ -116,41 +112,44 @@ export class StoryService {
     const rawStories = await this.storyModel.find(findQuery).limit(size);
     return {
       size,
-      stories: rawStories.map(story => this.transformResponseStory(story)),
+      stories: rawStories.map(story => this.transformResponseStory(story, user)),
     };
   }
 
   async reactToStory(
-    { userNo, nickname }: { userNo: number; nickname: string },
+    user: RequestUser,
     { storyId, type }: { storyId: string; type: ReactionType }
   ): Promise<StoryResponseDto> {
     assertReactionType(type);
     const story = await this.getStoryDocumentOfId(storyId);
     const filteredReactions = story.reactions.filter(reaction => {
-      return reaction.userNo !== userNo;
+      return reaction.userNo !== user.userNo;
     });
 
-    story.reactions = [...filteredReactions, { userNo, nickname, type }];
+    story.reactions = [
+      ...filteredReactions,
+      { userNo: user.userNo, nickname: user.nickname, type },
+    ];
 
     if (!story.reactionOrder.includes(type)) {
       story.reactionOrder.push(type);
     }
 
     await story.save();
-    return this.transformResponseStory(story);
+    return this.transformResponseStory(story, user);
   }
 
   async removeReactionFromStory(
-    userNo: number,
+    user: RequestUser,
     { storyId }: { storyId: string }
   ): Promise<StoryResponseDto> {
     const story = await this.getStoryDocumentOfId(storyId);
     story.reactions = story.reactions.filter(reaction => {
-      return reaction.userNo !== userNo;
+      return reaction.userNo !== user.userNo;
     });
 
     await story.save();
-    return this.transformResponseStory(story);
+    return this.transformResponseStory(story, user);
   }
 
   async getStoryDocumentOfId(id: string): Promise<StoryDocument> {
@@ -162,24 +161,28 @@ export class StoryService {
     return story;
   }
 
-  private transformResponseStory({
-    content,
-    createdAt,
-    updatedAt,
-    _id,
-    userNo,
-    nickname,
-    location,
-    reactions,
-    reactionOrder,
-    reports,
-  }: StoryDocument): StoryResponseDto {
+  private transformResponseStory(
+    {
+      content,
+      createdAt,
+      updatedAt,
+      _id,
+      userNo,
+      nickname,
+      location,
+      reactions,
+      reactionOrder,
+      reports,
+    }: StoryDocument,
+    user?: RequestUser
+  ): StoryResponseDto {
     return {
       content,
       createdAt,
       id: _id,
       reactions,
       reactionSummary: this.toReactionSummary(reactions, reactionOrder),
+      reactionOfMine: reactions.find(reaction => reaction.userNo === user?.userNo) ?? null,
       updatedAt,
       userNo,
       nickname,
