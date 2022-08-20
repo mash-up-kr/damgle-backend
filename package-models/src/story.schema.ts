@@ -26,6 +26,12 @@ export class Story {
     coordinates: [longitude: number, latitude: number];
   };
 
+  @Prop()
+  address1: string;
+
+  @Prop()
+  address2: string;
+
   @Prop({ userNo: { type: Number }, createdAt: { type: Number } })
   reports: { userNo: number; createdAt: number }[];
 

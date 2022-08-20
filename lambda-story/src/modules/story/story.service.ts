@@ -18,12 +18,17 @@ export class StoryService {
     private readonly storyModel: Model<StoryDocument>
   ) {}
 
-  async createStory(user: RequestUser, { content, x, y }: StoryCreationRequestDto): Promise<any> {
+  async createStory(
+    user: RequestUser,
+    { content, x, y, address1, address2 }: StoryCreationRequestDto
+  ): Promise<any> {
     // TODO: 하루에 100개 제한
     const story = new this.storyModel({
       userNo: user.userNo,
       nickname: user.nickname,
       content,
+      address1,
+      address2,
       location: { type: 'Point', coordinates: [x, y] },
       reactions: [],
       reactionOrder: [],
@@ -170,6 +175,8 @@ export class StoryService {
       userNo,
       nickname,
       location,
+      address1,
+      address2,
       reactions,
       reactionOrder,
       reports,
@@ -180,8 +187,14 @@ export class StoryService {
       content,
       createdAt,
       id: _id,
+      address1,
+      address2,
+      // 클라이언트 편의를 위해 서버에서 유저별로 transfrom 하기로 함.
+      // TODO: isMine같은 request user context에 종속된 transfrom 제거하기
+      isMine: userNo === user?.userNo,
       reactions,
       reactionSummary: this.toReactionSummary(reactions, reactionOrder),
+      // 클라이언트 편의를 위해 서버에서 유저별로 transfrom 하기로 함.
       reactionOfMine: reactions.find(reaction => reaction.userNo === user?.userNo) ?? null,
       updatedAt,
       userNo,

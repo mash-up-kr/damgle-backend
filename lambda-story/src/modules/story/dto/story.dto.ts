@@ -18,8 +18,17 @@ export class StoryResponseDto {
   @ApiProperty({ description: '위도(latitude)' })
   y: number;
 
+  @ApiProperty({ description: '주소값 1' })
+  address1: string;
+
+  @ApiProperty({ description: '주소값 2' })
+  address2: string;
+
   @ApiProperty({ description: '담글 본문' })
   content: string;
+
+  @ApiProperty({ description: '내 담글인지 여부' })
+  isMine: boolean;
 
   @ApiProperty({ description: '리액션 목록', type: () => [ReactionResponseDto] })
   reactions: ReactionResponseDto[];
@@ -46,6 +55,12 @@ export class StoryCreationRequestDto {
 
   @ApiProperty({ description: '위도(latitude)' })
   y: number;
+
+  @ApiProperty({ description: '주소값 1' })
+  address1: string;
+
+  @ApiProperty({ description: '주소값 2' })
+  address2: string;
 
   @ApiProperty({ description: '담글 본문' })
   content: string;
