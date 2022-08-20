@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Reaction } from './reaction.type';
+import { Reaction, ReactionType } from './reaction.type';
 
 @Schema({ collection: 'story', timestamps: { currentTime: () => Date.now() } })
 export class Story {
@@ -34,6 +34,9 @@ export class Story {
 
   @Prop()
   reactions: Reaction[];
+
+  @Prop()
+  reactionOrder: ReactionType[];
 
   @Prop()
   createdAt: number;
