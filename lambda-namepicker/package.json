@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json --noEmit",
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --collect-coverage",
     "lint": "eslint . --ext .js,.ts",
     "dev": "ts-node src/entry.local.ts",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",

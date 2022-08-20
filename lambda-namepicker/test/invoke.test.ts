@@ -3,7 +3,7 @@ import { readFile } from 'fs/promises';
 
 // Commmand: terraform state show aws_lambda_function.function
 // to retrieve lambda metadata
-describe('invoke lambda', () => {
+describe.skip('invoke lambda', () => {
   it('successfully invoke lambda', async () => {
     const payloadFileName = './payload.namepicker.json';
     const payload = await readFile(require.resolve(payloadFileName), 'utf8');
