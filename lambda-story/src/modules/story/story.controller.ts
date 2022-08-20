@@ -1,11 +1,23 @@
 import { AuthorizedRequest, JwtAuthGuard } from '@damgle/utils';
-import { Controller, Get, Post, Param, UseGuards, Req, Query, Delete, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  UseGuards,
+  Req,
+  Query,
+  Delete,
+  Body,
+  Logger,
+} from '@nestjs/common';
 import { StoryOfMineQueryRequestDto, StoryQueryRequestDto } from './dto/story-query.dto';
 import { StoryListResponseDto } from './dto/story-list.dto';
 import { StoryCreationRequestDto, StoryResponseDto } from './dto/story.dto';
 import { Docs } from './story.docs';
 import { StoryService } from './story.service';
 import { ReactToStoryReqeustBodyDto, StoryIdReqeustParamDto } from './dto/react.dto';
+import { Log } from '../../core/status-logger';
 
 const DEFAULT_QUERY_SIZE = 300;
 
@@ -15,6 +27,7 @@ export class StoryController {
 
   @Post('/')
   @UseGuards(JwtAuthGuard)
+  @Log()
   @Docs.createStory('새로운 담글을 올립니다.')
   async createStory(
     @Req() req: AuthorizedRequest,
@@ -26,6 +39,7 @@ export class StoryController {
   @Get('/me')
   @UseGuards(JwtAuthGuard)
   @Docs.getStoriesOfMine('내 담글들을 조회합니다.')
+  @Log()
   async getStoriesOfMine(
     @Req() req: AuthorizedRequest,
     @Query() dto: StoryOfMineQueryRequestDto
@@ -39,6 +53,7 @@ export class StoryController {
   @Get('/feed')
   @UseGuards(JwtAuthGuard)
   @Docs.getStoryFeeds('담글을 위치 범위를 지정하여 조회합니다.')
+  @Log()
   async getStoryFeeds(
     @Req() req: AuthorizedRequest,
     @Query() dto: StoryQueryRequestDto
@@ -53,6 +68,7 @@ export class StoryController {
   @Get('/:id')
   @UseGuards(JwtAuthGuard)
   @Docs.getStoryOfId('담글을 조회합니다.')
+  @Log()
   async getStoryOfId(
     @Req() req: AuthorizedRequest,
     @Param('id') id: string
@@ -63,6 +79,7 @@ export class StoryController {
   @Post('/react/:storyId')
   @UseGuards(JwtAuthGuard)
   @Docs.reactToStory('담글에 리액션을 남깁니다. (type: angry, amazing, sad, best, like)')
+  @Log()
   async reactToStory(
     @Req() req: AuthorizedRequest,
     @Body() { type }: ReactToStoryReqeustBodyDto,
@@ -74,6 +91,7 @@ export class StoryController {
   @Delete('/react/:storyId')
   @UseGuards(JwtAuthGuard)
   @Docs.removeReactionOfStory('담글에 리엑션을 제거합니다.')
+  @Log()
   async removeReactionOfStory(
     @Req() req: AuthorizedRequest,
     @Param() { storyId }: StoryIdReqeustParamDto
