@@ -24,6 +24,9 @@ export class StoryResponseDto {
   @ApiProperty({ description: '리액션 목록', type: () => [ReactionResponseDto] })
   reactions: ReactionResponseDto[];
 
+  @ApiProperty({ description: '리액션 순서 및 갯수', type: () => [ReactionSummaryItemResponseDto] })
+  reactionSummary: ReactionSummaryItemResponseDto[];
+
   @ApiProperty({ description: '신고목록', type: () => [ReportResponseDto] })
   reports: ReportResponseDto[];
 
@@ -57,4 +60,15 @@ export class ReactionResponseDto {
     description: '리액션 타입 (angry amaziong sad best like)',
   })
   type: ReactionType;
+}
+
+export class ReactionSummaryItemResponseDto {
+  @ApiProperty({
+    enum: ReactionType,
+    description: '리액션 타입 (angry amaziong sad best like)',
+  })
+  type: ReactionType;
+
+  @ApiProperty({ description: '리액션 카운트' })
+  count: number;
 }

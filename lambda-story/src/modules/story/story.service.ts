@@ -1,10 +1,14 @@
 import { InvalidObjectIdFormatError, StoryNotFoundError } from '@damgle/errors';
-import { assertReactionType, ReactionType, Story, StoryDocument } from '@damgle/models';
+import { assertReactionType, Reaction, ReactionType, Story, StoryDocument } from '@damgle/models';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ClientSession, Model, Types, UpdateQuery } from 'mongoose';
 import { StoryQueryRequestDto } from './dto/story-query.dto';
-import { StoryCreationRequestDto, StoryResponseDto } from './dto/story.dto';
+import {
+  ReactionSummaryItemResponseDto,
+  StoryCreationRequestDto,
+  StoryResponseDto,
+} from './dto/story.dto';
 
 @Injectable()
 export class StoryService {
@@ -23,6 +27,8 @@ export class StoryService {
       nickname: user.nickname,
       content,
       location: { type: 'Point', coordinates: [x, y] },
+      reactions: [],
+      reactionOrder: [],
     });
     await story.save();
 
@@ -125,6 +131,11 @@ export class StoryService {
     });
 
     story.reactions = [...filteredReactions, { userNo, nickname, type }];
+
+    if (!story.reactionOrder.includes(type)) {
+      story.reactionOrder.push(type);
+    }
+
     await story.save();
     return this.transformResponseStory(story);
   }
@@ -160,6 +171,7 @@ export class StoryService {
     nickname,
     location,
     reactions,
+    reactionOrder,
     reports,
   }: StoryDocument): StoryResponseDto {
     return {
@@ -167,6 +179,7 @@ export class StoryService {
       createdAt,
       id: _id,
       reactions,
+      reactionSummary: this.toReactionSummary(reactions, reactionOrder),
       updatedAt,
       userNo,
       nickname,
@@ -174,6 +187,33 @@ export class StoryService {
       x: location.coordinates[0],
       y: location.coordinates[1],
     };
+  }
+
+  private toReactionSummary(
+    reactions: Reaction[],
+    reactionOrder: ReactionType[]
+  ): ReactionSummaryItemResponseDto[] {
+    const countByType = this.countReactionByType(reactions);
+    return reactionOrder.map(type => {
+      return {
+        count: countByType[type],
+        type,
+      };
+    });
+  }
+
+  private countReactionByType(reactions: Reaction[]): Record<ReactionType, number> {
+    const result: Record<ReactionType, number> = {
+      amazing: 0,
+      angry: 0,
+      best: 0,
+      like: 0,
+      sad: 0,
+    };
+    for (const { type } of reactions) {
+      result[type]++;
+    }
+    return result;
   }
 
   private ensuredObjectId(id: string) {
