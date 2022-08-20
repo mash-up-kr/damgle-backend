@@ -1,1 +1,3 @@
-export type AuthorizedRequest = Request & { user: { userNo: number; nickname: string } };
+export type AuthorizedRequest = Request & { user: RequestUser };
+
+export type RequestUser = { userNo: number; nickname: string };
