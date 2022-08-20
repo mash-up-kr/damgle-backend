@@ -74,7 +74,7 @@ export class StoryService {
     }
     const rawStories = await this.storyModel.find(findQuery).sort({ _id: -1 }).limit(size);
     return {
-      size,
+      size: rawStories.length,
       stories: rawStories.map(story => this.transformResponseStory(story, user)),
     };
   }
@@ -116,7 +116,7 @@ export class StoryService {
 
     const rawStories = await this.storyModel.find(findQuery).sort({ _id: -1 }).limit(size);
     return {
-      size,
+      size: rawStories.length,
       stories: rawStories.map(story => this.transformResponseStory(story, user)),
     };
   }
