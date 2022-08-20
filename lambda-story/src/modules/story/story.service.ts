@@ -72,7 +72,7 @@ export class StoryService {
     if (startFromStoryId != null) {
       findQuery._id = { $lt: this.ensuredObjectId(startFromStoryId) };
     }
-    const rawStories = await this.storyModel.find(findQuery).limit(size);
+    const rawStories = await this.storyModel.find(findQuery).sort({ _id: -1 }).limit(size);
     return {
       size,
       stories: rawStories.map(story => this.transformResponseStory(story, user)),
@@ -114,7 +114,7 @@ export class StoryService {
       findQuery._id = { $lt: this.ensuredObjectId(startFromStoryId) };
     }
 
-    const rawStories = await this.storyModel.find(findQuery).limit(size);
+    const rawStories = await this.storyModel.find(findQuery).sort({ _id: -1 }).limit(size);
     return {
       size,
       stories: rawStories.map(story => this.transformResponseStory(story, user)),
