@@ -4,6 +4,9 @@
   "private": true,
   "author": "Karl Saehun Chung <saehun.dev@gmail.com> (https://saeh.io)",
   "license": "UNLICENSED",
+  "scripts": {
+    "seed": "ts-node script/seed/seed-story.ts"
+  },
   "devDependencies": {
     "@damgle/admin": "workspace:*",
     "@damgle/utils": "workspace:*",
@@ -12,6 +15,7 @@
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
     "eslint": "^8.16.0",
+    "got": "^10",
     "jest": "^28.1.0",
     "jest-mock-extended": "^2.0.6",
     "prettier": "^2.6.0",
