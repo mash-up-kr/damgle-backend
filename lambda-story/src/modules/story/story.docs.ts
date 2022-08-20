@@ -17,7 +17,11 @@ export const Docs: SwaggerMethodDoc<StoryController> = {
     );
   },
   getStoryOfId(summary: string) {
-    return applyDecorators(ApiOperation({ summary }), ApiOkResponse({ type: StoryResponseDto }));
+    return applyDecorators(
+      ApiBearerAuth(),
+      ApiOperation({ summary }),
+      ApiOkResponse({ type: StoryResponseDto })
+    );
   },
   getStoriesOfMine(summary: string) {
     return applyDecorators(
@@ -28,6 +32,7 @@ export const Docs: SwaggerMethodDoc<StoryController> = {
   },
   getStoryFeeds(summary: string) {
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({ summary }),
       ApiOkResponse({ type: StoryListResponseDto })
     );
